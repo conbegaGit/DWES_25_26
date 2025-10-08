@@ -10,4 +10,3 @@ elseif ($var == 3) {
 }else {
     echo "var no es un uno ni un dos, ni un tres";
 }
-?>
