@@ -5,10 +5,10 @@ const IVA = 0.21;
 echo PI, " ", 
 
 //Ejemplo: Definir una constante basada en el entorno.
-if  (getenv('ENTORNO') == 'produccion'){
-    define('DEBUG_MODE', false)
+if (getenv('ENTORNO') == 'produccion') {
+    define('DEBUG_MODE', false);
 } else {
-    define('DEBUG_MODE', true)
+    define('DEBUG_MODE', true);
 }
 
 class MiClase{
