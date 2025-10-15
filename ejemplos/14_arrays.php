@@ -9,7 +9,7 @@
 
     ];
     //2. Con la función array()
-    $arr2 = (
+    $arr2 = array(
         "1111A" => "Juan Vera Ochoa",
         "1112A" => "Maria Mesa Cabeza",
         "1113A" => "Ana Puertas Peral",
@@ -26,7 +26,7 @@
     }
     // Declaramos dos variables, una apunta a la clave y la otra al valor
     foreach ($arr2 as $codigo => $nombre) {
-        echo "Código : $codigo Nombre: $nombre <br>"
+        echo "Código : $codigo Nombre: $nombre <br>";
     }
     print_r($arr1);
     // Para acceder al vlor indicamos su clave
@@ -34,7 +34,7 @@
 
     // Para modificar el valor accedemos al array por su clave
     $arr2 ["1113A"] = "Ana Puertas Segundo";
-    print_r(arr2);
+    print_r($arr2);
 
 
 
