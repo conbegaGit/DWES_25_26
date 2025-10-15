@@ -6,7 +6,6 @@ Enunciado:
 3. Añade una fruta nueva al final del array
 4. Recorre el array con un foreach y muestra todas las frutas separado por comas.
 */ 
-
 $frutas = [
     "C#reza",
     "guaJava",
@@ -14,13 +13,17 @@ $frutas = [
     "JSandia",
     "Melocoton++",
 ];
-//Un pequeño juego de palabras ^
-$ultimaPosicion = count($frutas) - 1;
-print "La primera fruta es $frutas[0] <br>";
-print "La ultima fruta es $frutas[$ultimaPosicion] <br>";
 
+//Un pequeño juego de palabras ^
+//Echos
+$ultimaPosicion = count($frutas) - 1;
+echo "La primera fruta es $frutas[0] <br>";
+echo "La ultima fruta es $frutas[$ultimaPosicion] <br>";
+
+//Nueva cosa al array
 $frutas[] =  "MelonRust";
 
+//Muestro todo el array
 foreach($frutas as $fruta){
     echo "$fruta, " . "<br>";
 }
