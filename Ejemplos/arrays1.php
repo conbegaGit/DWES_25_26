@@ -11,13 +11,13 @@
         0 => 555,
         1 => 666,
         2 => 777,
-    )
+    );
 
     $arr3 = array(
         "111A" => "Pirata guarro",
         "112A" => "Francisco comunista",
         "113A" => "Canario africano",
-    )
+    );
     
     $arr4 = [
         111,
@@ -41,4 +41,3 @@
     }
     $arr3["113A"] = "Elio";
     print_r($arr3);
-    
