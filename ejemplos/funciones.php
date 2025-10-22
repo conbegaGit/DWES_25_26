@@ -16,3 +16,7 @@ var_dump(isset($var3)); // TRUE
 var_dump(is_null($var3)); // FALSE
 var_dump(empty($var3)); // TRUE
 echo "var 4"; 
+var_dump(empty($var4)); // TRUE
+echo "unset";
+unset($var1);
+var_dump(isset($var1)); // FALSE
