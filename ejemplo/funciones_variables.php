@@ -20,7 +20,6 @@ var_dump(isset($var3));
 var_dump(is_null($var3));
 var_dump(empty($var3));
 
-
 echo "<br> var 4 <br>";
 var_dump(isset($var4));
 var_dump(is_null($var4));
