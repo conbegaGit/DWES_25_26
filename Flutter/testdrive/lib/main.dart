@@ -47,8 +47,8 @@ class MyHomePage extends StatelessWidget {
           Text(appState.current.asLowerCase),
           BigCard(pair: pair),
           ElevatedButton(
-            onPressed:(){
-            appState.getNext();
+            onPressed: () {
+              appState.getNext();
             },
             child: Text("Next"),
           ),
