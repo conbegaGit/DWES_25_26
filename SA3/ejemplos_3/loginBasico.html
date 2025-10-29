@@ -5,9 +5,36 @@
   <meta charset = "UTF-8">
 </head>
 <body>
+  <!-- 
+    FORMULARIO PRINCIPAL
+    - action="loginBasico.php": Especifica el archivo que procesará los datos del formulario
+    - method="post": Indica que los datos se enviarán de forma segura (no visible en la URL)
+  -->
   <form action="loginBasico.php" method="post">
+    <!-- 
+        CAMPO DE USUARIO
+        - name="usuario": Identificador único para este campo en el backend
+        - type="text": Permite ingresar texto visible
+        - FALTA: etiqueta <label> para accesibilidad
+        - FALTA: atributo placeholder para indicar qué ingresar
+        - FALTA: atributo required para validación
+      -->
       <input name="usuario" type="text">
+       <!-- 
+        CAMPO DE CONTRASEÑA
+        - name="clave": Identificador único para este campo en el backend
+        - type="password": Oculta los caracteres ingresados (muestra puntos o asteriscos)
+        - FALTA: etiqueta <label> para accesibilidad
+        - FALTA: atributo placeholder para indicar qué ingresar
+        - FALTA: atributo required para validación
+      -->
       <input name="clave" type="password">
+       <!-- 
+        BOTÓN DE ENVÍO
+        - type="submit": Ejecuta el envío del formulario al hacer clic
+        - FALTA: atributo value para personalizar el texto del botón
+        - FALTA: estilos CSS para mejor apariencia
+      -->
       <input type="submit">
   </form>
 </body>
