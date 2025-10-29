@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": ".vscode",
+			"path": "../../../xampp/htdocs/DWES_25_26/.vscode"
+		},
+		{
+			"name": "actividades",
+			"path": "../../../xampp/htdocs/DWES_25_26/actividades"
+		},
+		{
+			"name": "ejemplos",
+			"path": "../../../xampp/htdocs/DWES_25_26/ejemplos"
+		},
+		{
+			"name": "Dossier_Actividades_Introduccion_PHP",
+			"path": "../../../xampp/htdocs/DWES_25_26/Dossier_Actividades_Introduccion_PHP"
+		}
+	]
+}
