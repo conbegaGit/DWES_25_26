@@ -1,6 +1,6 @@
 <?php 
 
-function dividir($numerador, $denominador){ 
+function dividir($numerador, $denominador) { 
 
     if ($denominador ==0){ 
 
@@ -14,7 +14,7 @@ function dividir($numerador, $denominador){
 
  
 
-try{ 
+
 
     $first = dividir(10,2); 
 
@@ -28,10 +28,5 @@ try{
 
  
 
-}catch(getMessage $e){ 
-
-    echo("error"); 
-
-} 
 
  
