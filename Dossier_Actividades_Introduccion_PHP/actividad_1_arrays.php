@@ -43,6 +43,7 @@
 
     echo "<br><br>";
 
+    // Comprobar si existe la clave "Francia" en el array original
     if ($array_key_exists = array_key_exists("Francia", $paises_capitales)) {
         echo "La clave 'Francia' existe en el array de países.<br>";
     } else {
