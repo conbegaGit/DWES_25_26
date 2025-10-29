@@ -8,29 +8,32 @@
     $lista = array(); 
 
     echo "Aplicación para la variable ($ nombre) <br>"; 
-    $nombreArray = array (isset($nombre), empty($nombre), is_null($nombre));
-    print_r($nombreArray) . '<br>';
-    /*echo isset($nombre) . "<br>"; 
-    echo empty($nombre) . "<br>"; 
-    echo is_null($nombre) . "<br>";*/
+    var_dump([
+        'isset'=> isset($nombre),
+        'empty' => empty($nombre),
+        'is_null' => is_null($nombre)
+    ]);
+    echo '<br>';
 
     echo "Aplicación para la variable ($ edad) <br>";
-    $edadArray = array(isset($edad), empty($edad), is_null($edad));
-    print_r($edadArray) . '<br>'; 
-    /*echo isset($edad) . "<br>"; 
-    echo empty($edad) . "<br>"; 
-    echo is_null($edad) . "<br>";*/
+    var_dump([
+        'isset'=> isset($edad),
+        'empty' => empty($edad),
+        'is_null' => is_null($edad)
+    ]);
+    echo '<br>';
 
     echo "Aplicación para la variable ($ saldo) <br>";
-    $saldoArray = array (isset($saldo), empty($saldo), is_null($saldo));
-    print_r($saldoArray) . '<br>';
-    /*echo isset($saldo) . "<br>"; 
-    echo empty($saldo) . "<br>"; 
-    echo is_null($saldo) . "<br>";*/
+    var_dump([
+        'isset'=> isset($saldo),
+        'empty' => empty($saldo),
+        'is_null' => "No está definido"
+    ]);
+    echo '<br>';
 
     echo "Aplicación para la variable ($ email) <br>";
-    $emailArray = array (isset($email), empty($email), is_null($email));
-    print_r($emailArray) . '<br>';
-    /*echo isset($email) . "<br>"; 
-    echo empty($email) . "<br>"; 
-    echo is_null($email) . "<br>";*/
+    var_dump([
+        'isset'=> isset($email),
+        'empty' => empty($email),
+        'is_null' => is_null($email)
+    ]);
