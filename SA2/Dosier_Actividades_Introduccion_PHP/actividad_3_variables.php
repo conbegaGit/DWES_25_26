@@ -1,53 +1,36 @@
 <?php
 $nombre = "Juan";
 $edad = 0;
-$saldo;
+$saldo; // No definida
 $email = null;
 $lista = array();
 
-echo "<table border='1' cellpadding='5' cellspacing='0'>";
-echo "<tr>
-        <th>Variable</th>
-        <th>Valor / Estado</th>
-        <th>isset()</th>
-        <th>empty()</th>
-        <th>is_null()</th>
-      </tr>";
+// Parte de $nombre
+echo("nombre <br>");
+echo("isset: " . isset($nombre) . "<br>");
+echo("empty: " . empty($nombre) . "<br>");
+echo("is_null: " . is_null($nombre) . "<br><br>");
 
-function mostrar($nombreVar, $valor, $definida = true) {
-    echo "<tr>";
-    echo "<td>\$$nombreVar</td>";
+// Parte de $edad
+echo("edad <br>");
+echo("isset: " . isset($edad) . "<br>");
+echo("empty: " . empty($edad) . "<br>");
+echo("is_null: " . is_null($edad) . "<br><br>");
 
-    if (!$definida) {
-        echo "<td>No definida</td>";
-    } else {
-        if (is_array($valor)) {
-            echo "<td>array(" . count($valor) . ")</td>";
-        } elseif (is_null($valor)) {
-            echo "<td>null</td>";
-        } elseif ($valor === "") {
-            echo "<td>cadena vacía</td>";
-        } else {
-            echo "<td>$valor</td>";
-        }
-    }
+// Parte de $saldo
+echo("saldo <br>");
+echo("isset: " . isset($saldo) . "<br>");
+echo("empty: " . empty($saldo) . "<br>");
+echo("is_null: " . is_null($saldo) . "<br><br>");
 
-    echo "<td>" . (isset($valor) ? "true" : "false") . "</td>";
-    echo "<td>" . (empty($valor) ? "true" : "false") . "</td>";
+// Parte de $email
+echo("email <br>");
+echo("isset: " . isset($email) . "<br>");
+echo("empty: " . empty($email) . "<br>");
+echo("is_null: " . is_null($email) . "<br><br>");
 
-    if ($definida) {
-        echo "<td>" . (is_null($valor) ? "true" : "false") . "</td>";
-    } else {
-        echo "<td>variable no definida</td>";
-    }
-
-    echo "</tr>";
-}
-
-mostrar("nombre", $nombre);
-mostrar("edad", $edad);
-mostrar("saldo", null, false);
-mostrar("email", $email);
-mostrar("lista", $lista);
-
-echo "</table>";
+// Parte de $lista
+echo("lista <br>");
+echo("isset: " . isset($lista) . "<br>");
+echo("empty: " . empty($lista) . "<br>");
+echo("is_null: " . is_null($lista) . "<br><br>");
