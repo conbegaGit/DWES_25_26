@@ -1,4 +1,6 @@
 <?php
+    echo "Actividad_1 - Arrays. <br> <br>";
+
     $paises_capitales = array (
         "Colombia" => "Bogotá",
         "España" => "Madrid",
