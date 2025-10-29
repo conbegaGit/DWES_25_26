@@ -6,7 +6,7 @@
     $a = 0100;
     $a = 0x100;
     $a = 3/2;
-    echo $a. <br>;
+    echo $a. "br";
     $b = 7.5;
     $a = (int) $b;
     echo $a . "<br>";
