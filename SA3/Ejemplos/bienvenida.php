@@ -5,7 +5,7 @@ $nombre = $_POST["nombre"];
 $color = $_POST ["color_fav"];
 //Crear cookie válida durante 1h
 setcookie("usuario", $nombre, time() + 3600);
-setcookie("color", $color, time() + 3600);
+setcookie("color_fav", $color, time() + 3600);
 echo "En bienvenida.php. El usuario ha enviado el FORM y se crea la cookie";
 
 }elseif(isset($_COOKIE["usuario"]) && isset($_COOKIE["color_fav"])){
@@ -36,7 +36,7 @@ echo "En bienvenida.php. El usuario ha enviado el FORM y se crea la cookie";
     <title>Bienvenida</title>
 </head>
 
-<body >
+<body style ="background-color: <?php echo htmlspecialchars($color);?>;">
     
     <h1> ¡Hola, <?php echo htmlspecialchars($nombre); ?></h1>
     <p>Encantad@ de verte de nuevo</p>
