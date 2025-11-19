@@ -11,7 +11,7 @@ if (isset($_POST['nombre']) && !empty($_POST['nombre'])) {
     setcookie("usuario", $nombre, time() + 3600, "/");
     setcookie("color", $color, time() + 3600, "/");
 
-    // No mostrar mensajes debug aquí; dejamos que la página renderice con el fondo
+    
 } elseif (isset($_COOKIE['usuario'])) {
     $nombre = htmlspecialchars($_COOKIE['usuario']);
     $color = isset($_COOKIE['color']) ? htmlspecialchars($_COOKIE['color']) : '#ffffff';
