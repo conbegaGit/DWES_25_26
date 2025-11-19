@@ -23,13 +23,11 @@ if (isset($_COOKIE["nombre"]) && isset($_COOKIE["color"])){
 
             <form method = "post" action ="bienvenida.php">
                 <input type="text" name ="nombre">
+               <input type="color" name="colore">
                 <input type="submit" value = "entrar">
                
             </form>
             <p> introduce el color que mas te agrada </p>
-            <form>
-               
-               <input type="color" name="colore">
-            </form>
+            
         </body>
     </html>

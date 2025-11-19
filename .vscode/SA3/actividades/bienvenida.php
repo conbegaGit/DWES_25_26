@@ -2,7 +2,7 @@
 
 use Dom\HTMLElement;
 echo $_POST["colore"];
-if (isset($_POST["nombre"]) && !empty($_POST["nombre"]) && isset($_POST["colore"])&& !empty($_POST["colore"])){
+if (isset($_POST["nombre"]) && !empty($_POST["nombre"])){
     $nombre = $_POST["nombre"];
     $color = $_POST["colore"];
     //crear cookie valida durante 1 hora
@@ -34,7 +34,7 @@ else{
             <title>bienvenida</title>
             <meta charset = "UTF-8">
         </head>
-        <body style="background-color: <?php   $color?>;">
+        <body style="background-color: <?=  $color ?>; color; <?=  $texto ?>;">
             <h1>holaaa, <?php echo htmlspecialchars($nombre)?></h1>
             <p>Encantando de verte de nuevo😎</p>
             <p><a href="borrar_cookie.php">Cerrar sesión</a></p>
