@@ -11,5 +11,5 @@ setcookie("usuario", "", time() - 3600);
 </head>
 
 <body>
-    <h1>Has ccerrado sesión correctamente</h1>
+    <h1>Has cerrado sesión correctamente</h1>
     <a href="index.php">Volver al inicio</a>
