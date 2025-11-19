@@ -6,7 +6,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"])) {
     //si el color de fondo es negro ponemos el color del texto blanco
     $texto = ($color === "#000000") ? "#FFFFFF" : "#000000";
 
-    // crear cookies válidad durante 1h
+    // crear cookies válidas durante 1h
     setcookie("usuario", $nombre, time() + 3600);
     setcookie("color_favorito", $color, time() + 3600);
 
@@ -37,7 +37,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"])) {
         <title>Bienvenido</title>
     </head>
 
-    <body style="background-color: <?= $color ?> color: <?= $texto ?>;">
+    <body style="background-color: <?= $color ?>; color: <?= $texto ?>;">
         <h2>Hola, <?= htmlspecialchars($nombre) ?></h2>
         <p>Tu color favorito es: <strong><?= htmlspecialchars($color) ?></strong></p>
 
