@@ -6,7 +6,7 @@ if (isset($_SESSION["usuario"])) {
     exit();
 }
  $usuario = $_SESSION['nombre'];
- $nombreRecordado = $_COOKIE['nombre_usuario'] ?? '';
+ $recordar = $_COOKIE['nombreUsuario'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +17,9 @@ if (isset($_SESSION["usuario"])) {
     </head>
     <body>
         <h1>¡Hola <?php echo htmlspecialchars($usuario); ?>!</h1>
+        <?php if($recordar): ?>
+            <p>Te recuerdo que la ultima vez que iniciaste sesion en <strong><?= htmlspecialchars($recordar) ?></strong></p>
+            <?php endif; ?>
         <p>Encantad@ de verte de nuevo.</p>
         <a href="logout.php">Cerrar sesión</a>
     </body>
