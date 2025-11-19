@@ -35,4 +35,3 @@ if (array_key_exists("Francia", $paises_capitales)) {
     echo "La clave 'Francia' NO existe en \$paises_capitales.";
 }
 
-?>

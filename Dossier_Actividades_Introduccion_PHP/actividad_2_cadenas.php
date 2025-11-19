@@ -13,4 +13,3 @@ print_r ($val3);
 echo "<br>";
 $palabra = "$val2 . $val3";
 print_r ($palabra);
-?>
