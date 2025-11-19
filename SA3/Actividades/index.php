@@ -24,6 +24,6 @@
             <label>Tu color favorito:</label>
             <input type="color" name="color" required></br>
             <button type="submit">Entrar</button>
-        </from>
+        </form>
     </body>
 </html>
