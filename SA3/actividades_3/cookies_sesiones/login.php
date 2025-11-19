@@ -12,4 +12,3 @@ if ($usuario === 'admin' && $clave === '1234') {
       echo "<p> El usuario o la contraseña son incorrectos<p>";
       echo '<a href="index.php">Atrás</a>';
     }
-?>
