@@ -2,5 +2,43 @@
     "githubPullRequests.ignoredPullRequestBranches": [
         "main",
         "main"
+    ],
+    "dbcode.connections": [
+        {
+            "connectionId": "H9dW8EX69WzY2bwpT3z7k",
+            "name": "DBEmpresa",
+            "driver": "mariadb",
+            "color": "#00E3A9",
+            "connectionType": "host",
+            "host": "localhost",
+            "port": 3306,
+            "ssl": false,
+            "username": "root",
+            "savePassword": "secretStorage",
+            "database": "empresa",
+            "readOnly": false,
+            "postConnectionSqlType": "inline",
+            "connectionTimeout": 30,
+            "driverOptions": {
+                "retrievePublickey": true
+            }
+        }
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "DBEmpresa",
+            "database": "empresa",
+            "username": "root",
+            "password": ""
+        }
     ]
 }
