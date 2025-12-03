@@ -12,11 +12,11 @@
     <form method="post" action="login.php">
         <label>
             Usuario
-            <input type="text" name="nombre" require autofocus>
+            <input type="text" name="usuario" required autofocus>
         </label>
         <label>
             Clave
-            <input type="password" name="clave" require>
+            <input type="password" name="password" required>
         </label>
         <div class="actions">
             <button type="submit">Entrar</button>
