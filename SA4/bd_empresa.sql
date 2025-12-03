@@ -87,3 +87,31 @@ INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
 SELECT 4, 'Pedro', '33333', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=4);
 INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
 SELECT 20, 'Luisa', '2222', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=20);
+
+
+
+-- 2B) Crear FK sólo si no existen (ejecutable varias veces)
+-- 1) departamentos_ibfk_1
+SET @schema = DATABASE();
+SELECT COUNT(*) INTO @cnt FROM information_schema.TABLE_CONSTRAINTS
+ WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'departamentos' AND CONSTRAINT_NAME = 'departamentos_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
+
+SET @sql = IF(@cnt = 0,
+  'ALTER TABLE `departamentos` ADD CONSTRAINT `departamentos_ibfk_1` FOREIGN KEY (`Jefe`) REFERENCES `empleados`(`CodEmple`) ON DELETE SET NULL ON UPDATE CASCADE',
+  'SELECT 1');
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 2) empleados_ibfk_1
+SELECT COUNT(*) INTO @cnt FROM information_schema.TABLE_CONSTRAINTS
+ WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'empleados' AND CONSTRAINT_NAME = 'empleados_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
+
+SET @sql = IF(@cnt = 0,
+  'ALTER TABLE `empleados` ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`Departamento`) REFERENCES `departamentos`(`CodDept`) ON DELETE CASCADE ON UPDATE CASCADE',
+  'SELECT 1');
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
