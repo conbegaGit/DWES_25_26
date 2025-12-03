@@ -2,6 +2,7 @@
 CREATE DATABASE IF NOT EXISTS `empresa` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `empresa`;
 
+-- 1) Crear BD, tablas e insertar datos (ejecutar primero)
 -- --------------------------------------------------------
 -- Tabla departamentos
 -- --------------------------------------------------------
@@ -42,19 +43,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
--- Relaciones entre tablas
--- --------------------------------------------------------
-ALTER TABLE `departamentos`
-  ADD CONSTRAINT IF NOT EXISTS `departamentos_ibfk_1` 
-  FOREIGN KEY (`Jefe`) REFERENCES `empleados` (`CodEmple`) 
-  ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE `empleados`
-  ADD CONSTRAINT IF NOT EXISTS `empleados_ibfk_1` 
-  FOREIGN KEY (`Departamento`) REFERENCES `departamentos` (`CodDept`) 
-  ON DELETE CASCADE ON UPDATE CASCADE;
-
--- --------------------------------------------------------
 -- Insertar departamentos de manera segura
 -- --------------------------------------------------------
 INSERT INTO `departamentos` (`CodDept`, `Nombre`, `Jefe`, `Presupuesto`, `Ciudad`)
@@ -91,6 +79,8 @@ INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
 SELECT 4, 'Pedro', '33333', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=4);
 INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
 SELECT 20, 'Luisa', '2222', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=20);
+
+
 -- 2B) Crear FK sólo si no existen (ejecutable varias veces)
 -- 1) departamentos_ibfk_1
 SET @schema = DATABASE();
