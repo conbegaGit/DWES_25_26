@@ -1,34 +1,31 @@
 <?php
+    session_start();
+    require_once '../AppEmpresa/includes/db.php';
+    require_once '../AppEmpresa/includes/functions.php';
 
-session_start();
-require_once 'includes/db.php';
-require_once 'includes/functions.php';
+    $error = "";
 
-$error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = trim($_POST["nombre"]);
-    $clave = trim($_POST["clave"]);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $nombre = trim($_POST['nombre']);
+        $clave = trim($_POST['clave']);
 
         if (!empty($nombre) && !empty($clave)) {
-            $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = :nombre AND Clave = :clave");
+            
+            $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
             $stmt->execute([$nombre, $clave]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user) {
+            if ($user) {    
                 session_regenerate_id(true);
                 $_SESSION['user'] = $user;
-                
                 header("Location: dashboard.php");
                 exit();
             } else {
-                $error = "Usuario o contraseña incorrectos.";
-                header("Location: dashboard.php");
+                $error = "Nombre de usuario o clave incorrectos.";
+                header("Location: index.php");
             }
         } else {
-            $error = "Usuario o contraseña incorrectos.";
-            header("Location: dashboard.php");
+            $error = "Nombre de usuario o clave incorrectos.";
+            header("Location: index.php");
         }
-}
-?>
-    
+    }
