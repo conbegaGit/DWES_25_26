@@ -12,8 +12,8 @@
 <h2>Panel principal</h2>
 <div class="grid">
     <div class="card">Departamentos<span class="big"><?= e($tot_dept) ?></div>
-    <div class="card">Empleados<span class="big"><?= e($tot_dept) ?></div>
-    <div class="card">Usuarios<span class="big"><?= e($tot_dept) ?></div>
+    <div class="card">Empleados<span class="big"><?= e($tot_emp) ?></div>
+    <div class="card">Usuarios<span class="big"><?= e($tot_user) ?></div>
 </div>
 
 <?php require_once "includes/footer.php"; ?>
