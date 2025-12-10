@@ -15,7 +15,7 @@ session_start();
         <h1>Iniciar sesión</h1>
         <form method="post" action="login.php">
             <label for="usuario">Usuario:
-                <input type="text" id="usuario" name="usuario" required autofocus> 
+                <input type="text" id="usuario" name="nombre" required autofocus> 
             </label>
 
             <label for="clave">Contraseña:
