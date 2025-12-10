@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 
     if(!empty($nombre) && !empty($clave)){
         //Preparar y ejecutar la consulta
-        $stmt = $bd->prepare ("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
+        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
         $stmt->execute([$nombre, $clave]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
