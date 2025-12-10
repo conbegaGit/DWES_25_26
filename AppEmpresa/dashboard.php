@@ -6,9 +6,9 @@ require_once "includes/db.php";
 require_once "includes/functions.php";
 require_once "includes/header.php";
 
-$tot_dept = $db->query("SELECT COUNT(*) FROM departamentos") ->fetchColum();
-$tot_emp = $db->query("SELECT COUNT(*) FROM empleados") ->fetchColum();
-$tot_user = $db->query("SELECT COUNT(* FROM usuarios)") ->fetchColum();
+$tot_dept = $bd->query("SELECT COUNT(*) FROM departamentos")->fetchColumn();
+$tot_emp = $bd->query("SELECT COUNT(*) FROM empleados")->fetchColumn();
+$tot_user = $bd->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
 
 ?>
 <h2> Panel principal </h2>
