@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
 //require_once "../AppEmpresa/includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
