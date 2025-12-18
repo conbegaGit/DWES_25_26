@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-require_once "includes/auth.php";
+// require_once "includes/auth.php";
 require_once "includes/db.php";
 require_once "includes/functions.php";
 require_once "includes/header.php";
 
-$tot_dept = $dn->query("SELECT COUNT(*) FROM departamentos")->fetchColumn();
-$tot_emp = $dn->query("SELECT COUNT(*) FROM empleados")->fetchColumn();
-$tot_dept = $dn->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
+$tot_dept = $bd->query("SELECT COUNT(*) FROM departamentos")->fetchColumn();
+$tot_emp = $bd->query("SELECT COUNT(*) FROM empleados")->fetchColumn();
+$tot_user = $bd->query("SELECT COUNT(*) FROM usuarios")->fetchColumn();
 ?>
 
 <h2>Panel principal</h2>
