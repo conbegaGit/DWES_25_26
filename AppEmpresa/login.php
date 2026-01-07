@@ -2,7 +2,6 @@
 
 session_start();
 require_once "includes/db.php";
-echo " aqui 3";
 require_once "includes/functions.php";
 $error = "";
 

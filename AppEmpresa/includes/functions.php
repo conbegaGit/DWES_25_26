@@ -7,10 +7,12 @@ function flash_set($msg){
     $_SESSION['flash'] = $msg;
 
 }
-function flash_get($msg){
+function flash_get(){
     if (!isset($_SESSION)) session_start();
     if (isset($_SESSION['flash'])){
         $m = $_SESSION['flash'];
         unset($_SESSION['flash']);
+        return $m;
     }
+    return false;
 }
