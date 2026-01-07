@@ -1,15 +1,14 @@
 <?php
 
-//includes db.php
-
+// Para usarlo hacemos "include 'includes/db.php'"
 $host = "127.0.0.1";
 $dbname = "empresa";
 $user = "root";
-$pass = ""; 
+$pass = ""; // XAMPP por defecto trae la contraseña vacía
 
-try{
+try {
     $bd = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo "Error de conexión: " . $e->getMessage();
+    die("Error de conexión") . $e->getMessage();
 }

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once "../AppEmpresa/includes/auth.php";
+//require_once "../AppEmpresa/includes/auth.php";
 require_once "../AppEmpresa/includes/db.php";
 require_once "../AppEmpresa/includes/functions.php";
 require_once "../AppEmpresa/includes/header.php";
