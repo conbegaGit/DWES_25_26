@@ -1,4 +1,21 @@
 {
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "editor.formatOnSave": true
+    },
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.suggest.showWords": true,
+    "editor.suggest.showIcons": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "php.validate.executablePath": "php",
+    "php.suggest.basic": true,
+    "intelephense.diagnostics.undefinedMethods": true,
+    "intelephense.diagnostics.undefinedProperties": true,
     "githubPullRequests.ignoredPullRequestBranches": [
         "main",
         "main"

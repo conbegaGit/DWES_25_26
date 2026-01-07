@@ -1,31 +1,39 @@
-
-<?php 
-/*session_start();
+<?php
+session_start();
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_once __DIR__ . "/../includes/header.php";
 
-$stm = $bd->query("SELECT d.*, e.Nombre AS JefeNombre FROM departamentos d LEFT JOIN empleados e ON d.Jefe = e.CodEmple ORDER BY d.CodDept");
-$rows = $stm -> fetchALL(PDO::FETCH_ASSOC);
+$stm = $bd->query("SELECT e.CodEmple, e.Nombre, e.Apellido1, e.Apellido2, d.Nombre AS Departamento FROM empleados e LEFT JOIN departamentos d ON e.Departamento = d.CodDept ORDER BY e.CodEmple");
+$rows = $stm->fetchALL(PDO::FETCH_ASSOC);
 ?>
-<h2>Departamentos</h2>
-<a class="btn" href="crear.php">Nuevo departamento</a>
+<h2>Empleados</h2>
+<a class="btn" href="crear.php">Nuevo empleado</a>
 <table class="list">
-    <thead><tr><th>ID</th><th>Nombre</th><th>Jefe</th><th>Ciudad</th><th>Presupuesto</th><th>Acciones</th></tr></thead>
-    <tbody>
-        <?php foreach($rows as $r): ?>
+    <thead>
         <tr>
-            <td><?= e($r['CodDept']) ?></td>
-            <td><?= e($r['Nombre']) ?></td>
-            <td><?= e($r['JefeNombre']) ?></td>
-            <td><?= e($r['Ciudad']) ?></td>
-            <td><?= e($r['Presupuesto']) ?></td>
-            <td>
-                <a href="editar.php?id<?= $r['CodDept'] ?>">Editar</a>
-                <a href="borrar.php?id<?= $r['CodDept'] ?>"onclick="return confirm('Borrar departamento')">Borrar</a>
-            </td>
+            <th>CodEmple</th>
+            <th>Nombre</th>
+            <th>Apellido1</th>
+            <th>Apellido2</th>
+            <th>Departamento</th>
+            <th>Acciones</th>
         </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($rows as $r): ?>
+            <tr>
+                <td><?= e($r['CodEmple']) ?></td>
+                <td><?= e($r['Nombre']) ?></td>
+                <td><?= e($r['Apellido1']) ?></td>
+                <td><?= e($r['Apellido2']) ?></td>
+                <td><?= e($r['Departamento']) ?></td>
+                <td>
+                    <a href="editar.php?id=<?= $r['CodEmple'] ?>">Editar</a>
+                    <a href="borrar.php?id=<?= $r['CodEmple'] ?>" onclick="return confirm('Borrar empleado')">Borrar</a>
+                </td>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
