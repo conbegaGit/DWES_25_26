@@ -25,7 +25,7 @@
         <tr>
             <td><?= e($r['CodDept']) ?></td>
             <td><?= e($r['Nombre']) ?></td>
-            <td><?= e($r['JefeNombre']) ?></td>
+            <td><?= e($r['JefeNombre'] ?? '-') ?></td>
             <td><?= e($r['Ciudad']) ?></td>
             <td><?= e($r['Presupuesto']) ?></td>
             <td>
