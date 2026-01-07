@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once "includes/db.php"; // Conexión a la base de datos
+require_once "../AppEmpresa/includes/db.php"; // Conexión a la base de datos
 
 $error = '';
 

@@ -11,13 +11,13 @@ if (!isset($_SESSION)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/AppEmpresa/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Empresa Panel</title>
 </head>
 
 <body>
     <header class="site-header">
-        <div clsas="wrap">
+        <div class="wrap">
             <h1 class="logo"><a href="/AppEmpresa/dashboard.php">Empresa</a></h1>
             <nav class="main-nav">
                 <a href="/AppEmpresa/dashboard.php">Inicio</a>

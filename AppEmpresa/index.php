@@ -1,5 +1,5 @@
 <?php
-include 'includes/db.php';
+
 ?>
 
 <!doctype html>
@@ -8,12 +8,12 @@ include 'includes/db.php';
     <meta charset="utf-8">
     <title>Login - Empresa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/AppEmpresa/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
-  <body clsas="login-body">
+  <body class="login-body">
     <div class="login-box">
       <h2>Iniciar sesión</h2>
-      <form method="post" action="login.php">
+      <form method="POST" action="login.php">
         <label>Usuario
             <input type="text" name="nombre" required autofocus>
         </label>
