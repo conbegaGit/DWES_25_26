@@ -36,7 +36,7 @@ require_once "../includes/header.php";
         <select name="Jefe">
             <option value="">-- Ninguno --</option>
             <?php foreach($emps as $em): ?>
-                <option value="<?= $em['CodEmple'] ?>" <?= ($dept['Jefe'] == $em ['ComEmple']) ? 'selected': '' ?>><?= e($em['Nombre'].' '.$em['Apellido1']) ?></option>
+                <option value="<?= $em['CodEmple'] ?>" <?= ($dept['Jefe'] == $em ['CodEmple']) ? 'selected': '' ?>><?= e($em['Nombre'].' '.$em['Apellido1']) ?></option>
             <?php endforeach; ?>
         </select>
     </label>

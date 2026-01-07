@@ -23,7 +23,7 @@ $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= e($r['Presupuesto']) ?></td>
                 <td>
                     <a href="editar.php?id=<?= $r['CodDept'] ?>">Editar</a>
-                    <a href="editar.php?id=<?= $r['CodDept'] ?>" onclick="return confirm('Borrar departamento')">Borrar</a>
+                    <a href="borrar.php?id=<?= $r['CodDept'] ?>" onclick="return confirm('Borrar departamento')">Borrar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
