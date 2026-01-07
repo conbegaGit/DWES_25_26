@@ -1,6 +1,5 @@
 <?php
-include "../AppEmpresa/includes/db.php";
-session_start();
+phpinfo()
 ?>
 
 <!doctype html>
