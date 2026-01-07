@@ -1,43 +1,42 @@
 <?php
+
 session_start();
+require_once "includes/db.php"; // O include_once
 
-// Si ya hay sesión activa, redirigir al dashboard
-if (isset($_SESSION['usuario'])) {
-    header('Location: dashboard.php');
-    exit();
-}
 
-require_once "includes/db.php"; // conexion a la BBDD
+$error="";
 
-$error = '';
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+    $nombre = trim($_POST["usuario"]);
+    $clave = trim($_POST["password"]);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
+    if(!empty($nombre) && !empty($clave)){
+        //Preparar y ejecutar la consulta
+        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
+        $stmt->execute([$nombre, $clave]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (empty($usuario) || empty($password)) {
-            $error = 'Por favor completa todos los campos';
-        } else {
-            // Preparar y ejecutar consulta segura con PDO
-            $stmt = $db->prepare('SELECT Clave FROM usuarios WHERE Nombre = :usuario LIMIT 1');
-            $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($user){
+            //Login correcto: almacenar en sesión
+            session_regenerate_id(true);
+            $_SESSION["user"]=$user;
 
-            if (!$row) {
-                $error = 'Usuario no encontrado: ' . htmlspecialchars($usuario);
-            } elseif ($row['Clave'] !== $password) {
-                $error = 'Usuario o contraseña incorrectos';
-            } else {
-                session_regenerate_id(true);
-                $_SESSION['usuario'] = $usuario;
-                header('Location: dashboard.php');
-                exit();
-            }
+            //flash_set("Bienvenida" . $_SESSION['user']['Nombre']);
+            header("Location: dashboard.php");
+            exit;
+        }else{
+            $error = "Usuario o clave incorrectos.";
+            header("Location:index.php");
         }
-    } catch (Exception $e) {
-        $error = 'Error. Inténtalo más tarde.';
-        error_log('Login error: ' . $e->getMessage());
+
+
+    }else{
+        $error="Usuario o clave incorrectos.";
+        header("Location:index.php");
     }
 }
+
+
+
+
+?>
