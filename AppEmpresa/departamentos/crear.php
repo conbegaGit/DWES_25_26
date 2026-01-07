@@ -21,8 +21,8 @@ require_once "../includes/header.php";
 <h2>Crear Departamento</h2>
 <form method="post">
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($nombre) ?>" required></label>
-    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($ciudad) ?>" required></label>>
-    <label>Presupuesto<br><input type="number" name="Presupuesto"  value="<?= e($presupuesto) ?>" required></label>><br>
+    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($ciudad) ?>" required></label>
+    <label>Presupuesto<br><input type="number" name="Presupuesto"  value="<?= e($presupuesto) ?>" required></label><br>
     <div class="actions"><button type="submit">Crear</button><a class="btn" href="listar.php">Cancelar</a></div>
 </form>
 <?php require_once "../includes/footer.php"; ?>

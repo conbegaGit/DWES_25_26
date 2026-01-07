@@ -10,7 +10,7 @@ include 'includes/db.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/AppEmpresa/css/style.css">
   </head>
-  <body clsas="login-body">
+  <body class="login-body">
     <div class="login-box">
       <h2>Iniciar sesión</h2>
       <form method="post" action="login.php">
