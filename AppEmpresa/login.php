@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 require_once "includes/db.php"; // O include_once
 
 
@@ -10,7 +12,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 
     if(!empty($nombre) && !empty($clave)){
         //Preparar y ejecutar la consulta
-        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
+        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
         $stmt->execute([$nombre, $clave]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
