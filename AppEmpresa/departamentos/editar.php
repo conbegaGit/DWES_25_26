@@ -21,7 +21,7 @@ $presupuesto = $dept['Presupuesto'];
 $jefe = $dept['Jefe'];
 
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
-
+echo "antes del if";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre'] ?? '');
     $ciudad = trim($_POST['Ciudad'] ?? '');
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?");
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
 
-        // flash_set("Departamento actualizado");
+        flash_set("Departamento actualizado");
         header("Location: listar.php");
         exit;
     }

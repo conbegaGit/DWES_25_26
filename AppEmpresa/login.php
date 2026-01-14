@@ -22,6 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION["user"] = $user;
 
             header("Location: dashboard.php");
+            flash_set("Bienvenido, " . $user['Nombre']);
             exit;
         }else{
                 $error = "Usuario o clave incorrectos.";

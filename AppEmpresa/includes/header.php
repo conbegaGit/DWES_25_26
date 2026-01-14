@@ -33,8 +33,8 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 </header>
 <main class="wrap">
-    <?php if ($flash = flash_get()): ?>
-        <div class="flash-message">
-            <?= $flash ?>
-        </div>
-    <?php endif; ?>
+<?php if ($msg = flash_get()): ?>
+    <div class="flash">
+        <?= e($msg) ?>
+    </div>
+<?php endif; ?>
