@@ -6,7 +6,7 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/header.php";
 
-$stmt = $bd->query("SELECT * FROM empleados ORDER BY CodEmple");
+$stmt = $bd->query("SELECT e.*, d.Nombre AS DepartamentoNombre FROM empleados e LEFT JOIN departamentos d ON e.Departamento = d.CodDept ORDER BY e.CodEmple");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2>Empleados</h2>
@@ -20,7 +20,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= e($r['Nombre']) ?></td>
                 <td><?= e($r['Apellido1'] ?? '-') ?></td>
                 <td><?= e($r['Apellido2']) ?></td>
-                <td><?= e($r['Departamento']) ?></td>
+                <td><?= e($r['DepartamentoNombre']) ?></td>
                 <td>
                     <a href="editar.php?id=<?= e($r['CodEmple']) ?>">Editar</a>
                     <a href="borrar.php?id=<?= e($r['CodEmple']) ?>" onclick="return confirm('Borrar empleado?')">Borrar</a>

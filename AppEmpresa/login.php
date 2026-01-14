@@ -2,6 +2,7 @@
 
 session_start();
 require_once "includes/db.php"; // Conexión a la base de datos
+require_once "includes/functions.php"; // Funciones auxiliares
 
 $error = '';
 
@@ -23,15 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION["user"] = $user;
 
-            //Flash_set("Bienvenido " . $_SESSION['user']['nombre']);
+            flash_set("Bienvenido " . $_SESSION['user']['Nombre']);
             header("Location: dashboard.php");
             exit;
         } else {
             $error = "Usuario o clave incorrectos";
+            flash_set($error);
             header("Location: index.php");
         }
     } else {
         $error = "Usuario o clave incorrectos";
+        flash_set($error);
         header("Location: index.php");
     }
 }

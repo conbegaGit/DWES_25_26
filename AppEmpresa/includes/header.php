@@ -33,6 +33,8 @@ if (!isset($_SESSION)) {
         </div>
     </header>
     <main class="wrap">
-</body>
-
-</html>
+        <?php if ($msg = flash_get()): ?>
+            <div class="flash">
+                <?= e($msg) ?>
+            </div>
+        <?php endif; ?>
