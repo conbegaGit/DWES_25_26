@@ -21,11 +21,11 @@
                 header("Location: dashboard.php");
                 exit();
             } else {
-                $error = "Nombre de usuario o clave incorrectos.";
+                flash_set ("Nombre de usuario o clave incorrectos.");
                 header("Location: index.php");
             }
         } else {
-            $error = "Nombre de usuario o clave incorrectos.";
+            flash_set ("Nombre de usuario o clave incorrectos.");
             header("Location: index.php");
         }
     }
