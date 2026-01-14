@@ -10,7 +10,7 @@ $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$dept) {
-    // flash_set("Departamento no encontrado");
+    flash_set("Departamento no encontrado");
     header("Location: listar.php");
     exit();
 }
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?");
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
 
-        // flash_set("Departamento actualizado");
+        flash_set("Departamento actualizado");
         header("Location: listar.php");
         exit;
     }

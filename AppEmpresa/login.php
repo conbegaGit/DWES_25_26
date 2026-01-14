@@ -19,6 +19,7 @@
                 session_regenerate_id(true);
                 $_SESSION['user'] = $user;
                 header("Location: dashboard.php");
+                flash_set("Bienvenido, " . $_SESSION['user']['Nombre'] . "!");
                 exit();
             } else {
                 $error = "Nombre de usuario o clave incorrectos.";

@@ -10,7 +10,7 @@ $stmt->execute([$id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
-    // flash_set("Usuario no encontrado");
+    flash_set("Usuario no encontrado");
     header("Location: listar.php");
     exit();
 }
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nombre && $clave && isset($_POST['Rol'])) {
         $stmt = $bd->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?");
         $stmt->execute([$nombre, $clave, $rol, $codigo]);
-        // flash_set("Usuario actualizado");
+        flash_set("Usuario actualizado");
         header("Location: listar.php");
         exit;
     }
