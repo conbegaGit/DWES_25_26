@@ -28,5 +28,10 @@ if(!isset($_SESSION)) session_start();
             </div>
         </header>
         <main class="wrap">
+            <?php if($msg = flash_get()): ?>
+                <div class = "flash">
+                    <?= e($msg) ?>
+                </div>
+                <?php endif; ?>
      </body>
 </html>
