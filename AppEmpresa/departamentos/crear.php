@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST'){
     $presupuesto = intval($_POST['Presupuesto']);
     $stmt = $db-> prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
     $stmt-> execute([$nombre, $ciudad, $presupuesto]);
-    //flash_set("Departamento creado");
+    flash_set("Departamento creado");
     header ("Location:listar.php");
     exit;
 }

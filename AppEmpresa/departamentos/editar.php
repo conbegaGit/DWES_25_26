@@ -9,7 +9,7 @@ $stmt = $db->prepare("SELECT * FROM DEPARTAMENTOS WHERE CodDept = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 IF (!$dept){
-    //flash_set("departamento no encontrado");
+    flash_set("departamento no encontrado");
     exit;
 }
 
@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $jefe =!empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
     $db->prepare("UPDATE departamentos SET Nombre=?,Presupuesto=?, Jefe? WHERE CodDept")
        ->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
-       //flash_set("Departamento actualizado");
+      flash_set("Departamento actualizado");
        header("Location: listar.php");
        exit; 
 }
