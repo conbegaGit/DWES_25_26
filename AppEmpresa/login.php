@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION['user'] = $user;
             header("Location: ./dashboard.php");
+            flash_set("Bienvenid@, " . $user['Nombre']);
             exit();
         } else {
             $error = "Nombre de usuario o clave incorrectos.";
@@ -27,4 +28,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Nombre de usuario o clave incorrectos.";
         header("Location: index.php");
     }
-} 
+}

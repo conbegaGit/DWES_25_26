@@ -1,5 +1,6 @@
 <?php
 if (!isset($_SESSION)) session_start();
+require_once __DIR__ . "/functions.php";
 ?>
 
 <!doctype html>
@@ -32,7 +33,7 @@ if (!isset($_SESSION)) session_start();
 </header>
 <main class="wrap">
     <?php if ($flash = flash_get()): ?>
-        <div class="flash-message">
-            <?= $flash ?>
+        <div class="flash">
+            <?= e($flash)?>
         </div>
     <?php endif; ?>

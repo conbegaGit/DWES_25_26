@@ -14,4 +14,5 @@ function flash_get(){
         unset($_SESSION['flash']);
         return $m;
     }
+    return null;
 }
