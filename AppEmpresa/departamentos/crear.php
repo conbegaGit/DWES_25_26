@@ -13,7 +13,7 @@
         $presupuestos = trim($_POST['presupuesto']);
         $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
         $stmt->execute([$nombre, $ciudad, $presupuestos]);
-        //flash_set("Departamento creado");
+        flash_set("Departamento creado");
         header("Location: listar.php");    
         exit();
     }

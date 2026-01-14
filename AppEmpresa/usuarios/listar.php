@@ -8,7 +8,7 @@
     require_once "../includes/functions.php";
     
 
-    $stm = $bd->query("SELECT * FROM usuarios ORDER BY CodEmple");
+    $stm = $bd->query("SELECT * FROM usuarios ORDER BY Codigo");
     $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php include "../includes/header.php"; ?>
@@ -19,8 +19,8 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Clave</th>
             <th>Rol</th>
-            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -31,8 +31,8 @@
             <td><?= e($r['Clave'] ?? '-') ?></td>
             <td><?= e($r['Rol'] ?? '-') ?></td>
             <td>
-                <a href="editar.php?id=<?= e($r['CodEmple']) ?>">Editar</a>
-                <a href="borrar.php?id=<?= e($r['CodEmple']) ?> " onclick="return confirm('¿Seguro que desea borrar este empleado?');">Borrar</a>
+                <a href="editar.php?id=<?= e($r['Codigo']) ?>">Editar</a>
+                <a href="borrar.php?id=<?= e($r['Codigo']) ?> " onclick="return confirm('¿Seguro que desea borrar este usuario?');">Borrar</a>
             </td>
         </tr>
         <?php endforeach; ?>

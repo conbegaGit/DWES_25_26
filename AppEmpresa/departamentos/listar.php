@@ -16,8 +16,8 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Jefe</th>
+            <th>Ciudad</th>
             <th>Presupuesto</th>
-            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>

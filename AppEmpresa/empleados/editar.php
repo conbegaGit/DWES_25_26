@@ -9,7 +9,7 @@
     $stmt->execute([$id]);
     $emp = $stmt->fetch(PDO::FETCH_ASSOC);
     if(!$emp) {
-        //flash_set("Empleado no encontrado");
+        flash_set("Empleado no encontrado");
         header("Location: listar.php");
         exit();
     }
@@ -21,7 +21,7 @@
         $departamento = !empty($_POST['Departamento']) ? intval($_POST['Departamento']) : null;
         $stm = $bd->prepare("UPDATE empleados SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, Departamento = ? WHERE CodEmple = ?")
             ->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
-        //flash_set("Empleado actualizado");
+        flash_set("Empleado actualizado");
         header("Location: listar.php");    
         exit();
     }
