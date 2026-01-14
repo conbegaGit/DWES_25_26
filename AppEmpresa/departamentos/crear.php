@@ -1,5 +1,6 @@
 <?php 
 session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
+define('BASE_PATH', '../');
 //require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
@@ -12,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $presupuesto = intval ( $_POST['Presupuesto']);
     $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?,?,?)");
     $stmt->execute([$nombre, $ciudad, $presupuesto]);
-  //  flash_set("Departamento creado.");
+    flash_set("Departamento creado.");
     header("Location: listar.php"); 
     exit();
 }

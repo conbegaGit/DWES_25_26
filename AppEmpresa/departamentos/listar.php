@@ -1,10 +1,11 @@
 <?php
 
 session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
+define('BASE_PATH', '../');
 //require_once "../AppEmpresa/includes/auth.php";
-require_once "includes/db.php";
-require_once "includes/functions.php";
-require_once "includes/header.php";
+require_once "../includes/functions.php";
+require_once "../includes/db.php";
+require_once "../includes/header.php";
 
 $stmt = $bd->query("SELECT d.*, e.Nombre AS JefeNombre FROM departamentos d  LEFT JOIN empleados e ON d.Jefe = e.CodEmple ORDER BY d.CodDept");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,4 +30,4 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </tbody> 
 </table>
-<?php require_once "includes/footer.php"; ?>
+<?php require_once "../includes/footer.php"; ?>

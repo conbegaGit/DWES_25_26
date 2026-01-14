@@ -1,5 +1,5 @@
 <?php
-
+require_once "../AppEmpresa/includes/db.php"; // Conexión a la base de datos
 ?>
 
 <!doctype html>

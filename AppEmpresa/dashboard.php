@@ -1,10 +1,10 @@
 <?php
 
 session_start();
+define('BASE_PATH', '');
 //require_once "../AppEmpresa/includes/auth.php";
 
 require_once "../AppEmpresa/includes/db.php";
-echo "CONEXION OK";
 require_once "../AppEmpresa/includes/functions.php";
 require_once "../AppEmpresa/includes/header.php";
 

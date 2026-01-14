@@ -6,8 +6,8 @@ require_once "../includes/functions.php";
 
 $id = intval($_GET['id'] ?? 0);
 if ($id){
-    $db->prepare("DELETE FROM departamentos WHERE CodDept = ?")->execute([$id]);
-
+    $bd->prepare("DELETE FROM departamentos WHERE CodDept = ?")->execute([$id]);
+    flash_set("Departamento eliminado.");
 }
 header("Location: listar.php");
 exit;

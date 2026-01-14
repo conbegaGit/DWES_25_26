@@ -1,5 +1,6 @@
 <?php 
 session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
+define('BASE_PATH', '../');
 //require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
     $bd->prepare("UPDATE departamentos SET Nombre = ?, Ciudad = ?, Presupuesto = ?, Jefe = ? WHERE CodDept = ?") 
      -> execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
-   // flash_set("Departamento actualizado.");
+    flash_set("Departamento actualizado.");
     header("Location: listar.php"); 
     exit;
 }
