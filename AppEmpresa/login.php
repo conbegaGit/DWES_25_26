@@ -5,6 +5,7 @@ require_once "./includes/db.php";
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     $usuario = trim($_POST['nombre'] ?? '');
     $clave   = trim($_POST['clave'] ?? '');
 

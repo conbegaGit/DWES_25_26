@@ -4,10 +4,10 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-$id = intval($_GET['id'] ?? 0);
+$id = intval($_GET["id"]);
 if ($id) {
     $bd->prepare("DELETE FROM departamentos WHERE CodDept = ?")->execute([$id]);
-    flash_set("Departamento borrado.");
+    // flash_set("Departamento borrado");
 }
-header("Location: listar.php");
+header("Location:listar.php");
 exit;
