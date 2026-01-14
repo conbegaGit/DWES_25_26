@@ -12,7 +12,6 @@ $tot_usu = $bd -> query("SELECT COUNT(*) FROM usuarios") -> fetchColumn();
 
 <h2>Panel principal</h2>
 
-
 <div class="grid">
     <div class="card">Departamentos <span class="big"><?= e($tot_dept) ?></span></div>
     <div class="card">Empleados <span class="big"><?= e($tot_emp) ?></span></div>

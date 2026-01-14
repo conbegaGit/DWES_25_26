@@ -32,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?");
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
 
-        // flash_set("Departamento actualizado");
+        flash_set("Departamento actualizado");
         header("Location: listar.php");
         exit;
     }
 }
+
 ?>
 
 <h2>Editar departamento</h2>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "./includes/db.php";
+require_once "./includes/functions.php";
 
 $error = "";
 
@@ -21,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["user"] = $user;
 
             header("Location: dashboard.php");
+            flash_set("Bienvenid@, " . $user['Nombre']);
             exit;
         } else {
             $error = "Usuario o clave incorrectos.";
