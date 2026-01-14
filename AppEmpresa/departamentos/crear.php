@@ -14,10 +14,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $presupuesto = intval($_POST['Presupuesto']);
     $stm = $db->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
     $stm->execute([$nombre, $ciudad, $presupuesto]);
-    //flash_set("Departamento Creado");
+    flash_set("Departamento Creado");
     header("Location: listar.php");
     exit;
 }
+
 ?>
 
 <h2>Crear Departamento</h2>

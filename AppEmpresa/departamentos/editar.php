@@ -9,18 +9,18 @@ $stmt = $db->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$dept){
-    //flash_set("Departamento no encontrado");
+    flash_set("Departamento no encontrado");
     header("Location: listar.php");
     exit;
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $nombre = trim($_POST['Nombre']);
-    $Ciudad = trim($_POST['Ciudad']);
+    $ciudad = trim($_POST['Ciudad']);
     $presupuesto = trim($_POST['Presupuesto']);
     $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
     $db->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?")->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
-    //flash_set("Departamento actualizado");
+    flash_set("Departamento actualizado");
     header("Location: listar.php");
     exit;
 }

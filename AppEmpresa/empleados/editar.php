@@ -9,10 +9,12 @@ $stmt = $db->prepare("SELECT * FROM empleados WHERE CodEmple = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$dept){
-    //flash_set("Departamento no encontrado");
+    flash_set("Departamento no encontrado");
     header("Location: listar.php");
     exit;
 }
+$emps = $db->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")
+->fetchAll(PDO::FETCH_ASSOC);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $nombre = trim($_POST['Nombre']);
@@ -20,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $apellido2 = trim($_POST['Apellido2']);
     $departamento = trim($_POST['Departamento']);
     $db->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?")->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
-    //flash_set("Departamento actualizado");
+    flash_set("Empleado actualizado");
     header("Location: listar.php");
     exit;
 }
@@ -34,8 +36,7 @@ require_once "../includes/header.php";
     <label>Apellido1<br><input type="text" name="Apellido1" value="<?= e($dept['Apellido1']) ?>" required></label>
     <label>Apellido2<br><input type="text" name="Apellido2" value="<?= e($dept['Apellido2']) ?>" required></label>
     <label>Departamento<br>
-        <select name="Departamento">
-            <option value=""><?= e($dept['Departamento']) ?></option>
+        <select name="Departamento" required>
             <?php foreach($emps as $em): ?>
                 <option value="<?= $em['CodDept'] ?>" <?= ($dept['Departamento'] == $em ['CodDept']) ? 'selected': '' ?>><?= e($em['Nombre']) ?></option>
             <?php endforeach; ?>
