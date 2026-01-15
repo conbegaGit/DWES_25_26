@@ -35,3 +35,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+<h2>Editar usuario</h2>
+<form method="post">
+    <label>
+        Codigo<br>
+        <input type="text" name="Codigo" value="<?= e($codigo) ?>" required>
+    </label>
+
+    <label>
+        Nombre<br>
+        <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
+    </label>
+
+    <label>
+        Clave<br>
+        <input type="text" name="Clave" value="<?= e($clave) ?>" required>
+    </label>
+
+<label>
+    rol<br>
+    <select name="Rol" required>
+        <option value="">-- Seleccions rol --</option>
+        <option value="1" <?= $rol === 1 ? 'selected' : '' ?>>Admin</option>
+        <option value="0" <?= $rol === 0 ? 'selected' : '' ?>>User</option>
+    </select>
+</label>
+
+    <div class="actions">
+        <button type="submit">Guardar cambios</button>
+        <a class="btn" href="listar.php">Cancelar</a>
+    </div>
+</form>
+
+<?php require_once __DIR__ . "/../includes/footer.php"; ?>

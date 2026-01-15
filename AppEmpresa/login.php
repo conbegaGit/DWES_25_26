@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once "includes/db.php";
-    //require_once "includes/functions.php";
+    require_once "includes/functions.php";
 
     $error = "";
 
@@ -22,12 +22,13 @@
                 $_SESSION["user"] = $user;
 
                 header("Location: dashboard.php");
+                flash_set("Bienvenido, " . $_SESSION["user"]["Nombre"] . "!");
                 exit;
             }
             else
             {
                 $error = "Usuario o clave incorrectos.";
-                header("Locution: index.php");
+                header("Location: index.php");
             }
         }
         else
@@ -36,5 +37,4 @@
             header("Location: index.php");
         }
     }
-
    
