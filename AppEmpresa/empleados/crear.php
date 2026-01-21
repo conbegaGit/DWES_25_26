@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $departamento = trim($_POST['Departamento']);
     $stm = $db->prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (?, ?, ?, ?)");
     $stm->execute([$nombre, $apellido1, $apellido2, $departamento]);
-    flash_set("Departamento Creado");
+    flash_set("Empleado Creado");
     header("Location: listar.php");
     exit;
 }
