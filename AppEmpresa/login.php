@@ -2,12 +2,13 @@
 session_start();
 
 // Si ya hay sesión activa, redirigir al dashboard
-if (isset($_SESSION['usuario'])) {
+if (isset($_SESSION['user'])) {
     header('Location: dashboard.php');
     exit();
 }
 
 require_once "includes/db.php"; // conexion a la BBDD
+require_once "includes/functions.php";
 
 $error = '';
 
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Por favor completa todos los campos';
         } else {
             // Preparar y ejecutar consulta segura con PDO
-            $stmt = $bd->prepare('SELECT Clave FROM usuarios WHERE Nombre = :usuario LIMIT 1');
+            $stmt = $bd->prepare('SELECT Clave, Rol FROM usuarios WHERE Nombre = :usuario LIMIT 1');
             $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -31,7 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Usuario o contraseña incorrectos';
             } else {
                 session_regenerate_id(true);
-                $_SESSION['usuario'] = $usuario;
+                $_SESSION['user'] = [
+                    'Nombre' => $usuario,
+                    'Rol' => $row['Rol']
+                ];
+                flash_set("Bienvenido " . $usuario);
                 header('Location: dashboard.php');
                 exit();
             }
