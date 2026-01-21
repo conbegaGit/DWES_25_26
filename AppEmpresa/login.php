@@ -2,6 +2,7 @@
 
 session_start();
 require_once "../AppEmpresa/includes/db.php"; // Conexión a la base de datos
+require_once "../AppEmpresa/includes/functions.php"; // Funciones auxiliares
 
 $error = '';
 
@@ -23,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION["user"] = $user;
 
-            //Flash_set("Bienvenido " . $_SESSION['user']['nombre']);
+            // Mensaje de bienvenida
+            flash_set("Bienvenido " . $user['Nombre']);
             header("Location: dashboard.php");
             exit;
         } else {
