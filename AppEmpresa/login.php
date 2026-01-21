@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once 'includes/functions.php';
 require_once "includes/db.php"; // O include_once
 
 
@@ -21,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
             session_regenerate_id(true);
             $_SESSION["user"]=$user;
 
-            //flash_set("Bienvenida" . $_SESSION['user']['Nombre']);
+            flash_set("Bienvenida " . $_SESSION['user']['Nombre']);
             header("Location: dashboard.php");
             exit;
         }else{

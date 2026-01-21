@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST'){
     $Departamento = intval($_POST['Departamento']);
     $stmt = $db-> prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2,Departamento) VALUES (?,?,?,?)");
     $stmt-> execute([$nombre, $Apellido1, $Apellido2,$Departamento]);
-    flash_set("Departamento creado");
+    flash_set("Empleado creado");
     header ("Location:listar.php");
     exit;
 }
@@ -22,7 +22,7 @@ $deps =$db->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")
         ->fetchAll(PDO::FETCH_ASSOC);
 require_once "../includes/header.php";
 ?>
-<h2>Crear Departamento</h2>
+<h2>Crear Empleado</h2>
 <form method="post">
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($nombre) ?>"required></label>
     <label>Apellido1<br><input type="text" name="Apellido1" value="<?= e($Apellido1) ?>"required></label>
