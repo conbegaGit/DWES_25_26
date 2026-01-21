@@ -1,12 +1,10 @@
 <?php
-session_start();
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
-require_once "../includes/header.php";
 
-if (!esAdmin()) {
-    redirigir('../dashboard.php', 'Acceso denegado.', 'error');
-}
+verificarAdmin();
+
+require_once "../includes/header.php";
 
 $stm = $bd->query("SELECT * FROM usuarios ORDER BY Nombre");
 $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
