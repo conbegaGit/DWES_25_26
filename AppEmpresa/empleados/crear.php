@@ -1,71 +1,52 @@
 <?php
 session_start();
+require_once "../includes/db.php";
+require_once "../includes/functions.php";
+require_once "../includes/header.php";
 
-require_once __DIR__ . "/../includes/db.php";
-require_once __DIR__ . "/../includes/functions.php";
-require_once __DIR__ . "/../includes/header.php";
-
-$nombre = $apellido1 = $apellido2 = '';
-$departamento = 0;
-
-$deps = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre") ->fetchAll(PDO::FETCH_ASSOC);
+// Obtener departamentos para el select
+$stmt_dept = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre");
+$departamentos = $stmt_dept->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido1 = trim($_POST['apellido1'] ?? '');
+    $apellido2 = trim($_POST['apellido2'] ?? '');
+    $departamento = $_POST['departamento'] ?? '';
 
-    $nombre = trim($_POST['Nombre'] ?? '');
-    $apellido1 = trim($_POST['Apellido1'] ?? '');
-    $apellido2 = trim($_POST['Apellido2'] ?? '');
-    $departamento = (int) ($_POST['Departamento'] ?? 0);
-
-    $stmt = $bd->prepare(
-        "INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento)
-         VALUES (?, ?, ?, ?)"
-    );
-    $stmt->execute([$nombre, $apellido1, $apellido2, $departamento]);
-
-    // flash_set("Empleado creado");
-    header("Location: listar.php");
-    exit;
+    if ($nombre && $apellido1 && $apellido2 && $departamento) {
+        $sql = "INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (:nombre, :apellido1, :apellido2, :departamento)";
+        $stmt = $bd->prepare($sql);
+        try {
+            $stmt->execute([
+                ':nombre' => $nombre,
+                ':apellido1' => $apellido1,
+                ':apellido2' => $apellido2,
+                ':departamento' => $departamento
+            ]);
+            redirigir('listar.php', 'Empleado creado correctamente.');
+        } catch (PDOException $ex) {
+            echo "<p class='error'>Error al crear empleado: " . e($ex->getMessage()) . "</p>";
+        }
+    } else {
+        echo "<p class='error'>Por favor, completa todos los campos.</p>";
+    }
 }
 ?>
-
-<h2>Crear Empleado</h2>
-
-<form method="post">
-
-    <label>
-        Nombre<br>
-        <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
-    </label>
-
-    <label>
-        Apellido 1<br>
-        <input type="text" name="Apellido1" value="<?= e($apellido1) ?>" required>
-    </label>
-
-    <label>
-        Apellido 2<br>
-        <input type="text" name="Apellido2" value="<?= e($apellido2) ?>" required>
-    </label>
-
-    <label>
-        Departamento<br>
-        <select name="Departamento" required>
-            <option value="">-- Selecciona departamento --</option>
-            <?php foreach ($deps as $d): ?>
-                <option value="<?= $d['CodDept'] ?>"
-                    <?= ($departamento == $d['CodDept']) ? 'selected' : '' ?>>
-                    <?= e($d['Nombre']) ?>
-                </option>
+<h2>Nuevo Empleado</h2>
+<form method="post" action="crear.php">
+    <label>Nombre: <input type="text" name="nombre" required></label><br>
+    <label>Apellido 1: <input type="text" name="apellido1" required></label><br>
+    <label>Apellido 2: <input type="text" name="apellido2" required></label><br>
+    <label>Departamento:
+        <select name="departamento" required>
+            <option value="">-- Selecciona --</option>
+            <?php foreach ($departamentos as $dept): ?>
+                <option value="<?= $dept['CodDept'] ?>"><?= e($dept['Nombre']) ?></option>
             <?php endforeach; ?>
         </select>
-    </label>
-
-    <div class="actions">
-        <button type="submit">Crear</button>
-        <a class="btn" href="listar.php">Cancelar</a>
-    </div>
-
+    </label><br>
+    <input type="submit" value="Guardar">
 </form>
-
-<?php require_once __DIR__ . "/../includes/footer.php"; ?>
+<p><a href="listar.php">Volver al listado</a></p>
+<?php require_once "../includes/footer.php"; ?>
