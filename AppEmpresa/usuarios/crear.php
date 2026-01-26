@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre = trim($_POST['Nombre'] ?? '');
     $clave = trim($_POST['Clave'] ?? '');
+    $hash = password_hash($clave, PASSWORD_DEFAULT);
     $rol = (int) ($_POST['Rol'] ?? 2);
 
     if ($nombre === '') $errores[] = "El nombre es obligatorio";
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare(
             "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)"
         );
-        $stmt->execute([$nombre, $clave, $rol]);
+        $stmt->execute([$nombre, $hash, $rol]);
 
         flash_set("Usuario creado");
         header("Location: listar.php");

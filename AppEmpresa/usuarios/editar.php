@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre = trim($_POST['Nombre'] ?? '');
     $clave = trim($_POST['Clave'] ?? '');
+    $hash = password_hash($clave, PASSWORD_DEFAULT);
     $rol = (int) ($_POST['Rol'] ?? 2);
 
     if ($nombre === '') $errores[] = "El nombre es obligatorio";
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare(
             "UPDATE usuarios SET Nombre = ?, Clave = ?, Rol = ? WHERE Codigo = ?"
         );
-        $stmt->execute([$nombre, $clave, $rol, $id]);
+        $stmt->execute([$nombre, $hash, $rol, $id]);
 
         flash_set("Usuario actualizado");
         header("Location: listar.php");
