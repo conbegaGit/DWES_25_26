@@ -23,11 +23,12 @@ $rol = $usr['Rol'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre'] ?? '');
     $clave = trim($_POST['Clave'] ?? '');
+    $hash = password_hash($clave, algo: PASSWORD_DEFAULT);
     $rol = trim($_POST['Rol'] ?? '');
 
     if ($nombre && $clave && $rol !== '') {
         $stmt = $bd->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?");
-        $stmt->execute([$nombre, $clave, $rol, $id]);
+        $stmt->execute([$nombre, $hash, $rol, $id]);
 
         flash_set("Usuario actualizado");
         header("Location: listar.php");

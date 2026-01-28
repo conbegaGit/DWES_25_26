@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clave = trim($_POST['clave']);
 
     if (!empty($nombre) && !empty($clave)) {
-        $consulta = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
-        $consulta->execute([$nombre, $clave]);
+        $consulta = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ?");
+        $consulta->execute([$nombre]);
         $user = $consulta->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
+        if ($user && password_verify($clave, $user['Clave'])) {
             session_regenerate_id(true);
             $_SESSION['user'] = $user;
             header("Location: ./dashboard.php");
