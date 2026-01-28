@@ -30,10 +30,8 @@ $emps = $db->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")
     <label>Clave<br><input type="text" name="Clave" value="<?= e($clave) ?>" required></label>
     <label>Rol<br>
         <select name="Rol" required>
-            <option value="">-- Selecciona un rol --</option>
-            <?php foreach($emps as $em): ?>
-                <option value="<?= $em['CodEmple'] ?>" <?= $departamento == $em ['CodEmple'] ? 'selected': '' ?>><?= e($em['Nombre']) ?></option>
-            <?php endforeach; ?>
+            <option value="0">Usuario</option>
+            <option value="1">Admin</option>
         </select>
     </label>
     <div class="actions"><button type="submit">Crear</button> <a class="btn" href="listar.php">Cancelar</a></div>
