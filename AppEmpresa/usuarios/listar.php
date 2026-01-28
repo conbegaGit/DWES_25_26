@@ -5,20 +5,19 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/header.php";
 
-$stm = $db->query("SELECT e.*, d.Nombre AS Departamento FROM empleados e LEFT JOIN departamentos d ON e.Departamento = d.CodDept ORDER BY e.CodEmple");
+$stm = $db->query("SELECT Codigo, Nombre, Clave, Rol FROM usuarios ORDER BY Codigo");
 $rows = $stm ->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h2>Empleados</h2>
-<a class="btn" href="crear.php">Nuevo empleado</a>
+<h2>Usuarios</h2>
+<a class="btn" href="crear.php">Nuevo usuario</a>
 <table class="list">
-    <thread><tr><th>ID</th><th>Nombre</th><th>Apellido1</th><th>Apellido2</th><th>Departamento</th></tr></thread>
+    <thead><tr><th>Codigo</th><th>Nombre</th><th>Rol</th></tr></thread>
 <tbody>
     <?php foreach($rows as $r):?>
     <tr>
         <td><?= e($r['Codigo'])?></td>
         <td><?= e($r['Nombre'])?></td>
-        <td><?= e($r['Clave'])?></td>
         <td><?= e($r['Rol'])?></td>
         <td>
             <a href="editar.php?id=<?= $r['Codigo']?>">Editar</a>

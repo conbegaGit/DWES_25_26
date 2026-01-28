@@ -15,14 +15,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $hash = password_hash($Clave, PASSWORD_DEFAULT);
     $Rol = intval($_POST['Rol']);
     $stm = $db->prepare("INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)");
-    $stm->execute([$nombre, $Apellido1, $Apellido2, $Departamento]);
+    $stm->execute([$Nombre, $hash, $Rol]);
     flash_set("Usuario creado");
     header("Location: listar.php");
     exit;
 }
-
-$Rols = $db->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre")
-           ->fetchAll(PDO::FETCH_ASSOC);
 
 require_once "../includes/header.php";
 ?>
