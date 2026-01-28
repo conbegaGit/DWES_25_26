@@ -1,4 +1,9 @@
 <?php
+// Habilitar visualización de errores para diagnóstico
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 // Si ya hay sesión activa, redirigir al dashboard
@@ -46,4 +51,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('Login error: ' . $e->getMessage());
     }
 }
-
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Empresa</title>
+    <link rel="stylesheet" href="/AppEmpresa/css/style.css">
+</head>
+<body class="login-body">
+    <div class="login-box">
+        <h2>Iniciar Sesión</h2>
+        
+        <?php if (!empty($error)): ?>
+                <div class="flash error">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+        <?php endif; ?>
+        
+        <form method="POST" action="login.php">
+            <label>
+                Usuario
+                <input type="text" name="usuario" required autofocus>
+            </label>
+            <label>
+                Contraseña
+                <input type="password" name="password" required>
+            </label>
+            <div class="actions">
+                <button type="submit">Entrar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
