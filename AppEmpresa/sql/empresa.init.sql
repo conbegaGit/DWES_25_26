@@ -113,3 +113,6 @@ SET @sql = IF(@cnt = 0,
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
+-- La columna clave debería ser más larga para almacenar contraseñas hasheadas
+ALTER TABLE `usuarios` MODIFY Clave VARCHAR(255) NOT NULL;
