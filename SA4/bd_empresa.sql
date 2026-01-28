@@ -113,3 +113,8 @@ SET @sql = IF(@cnt = 0,
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
+-- Moidificaciones posteriores
+-- -------------------------------------------------
+-- Cambiar la comlumna de Clave de usuarios
+ALTER TABLE usuarios MODIFY COLUMN Clave VARCHAR(255) NOT NULL;
