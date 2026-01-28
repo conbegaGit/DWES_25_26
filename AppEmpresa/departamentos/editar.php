@@ -18,8 +18,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto= intval($_POST['Presupuesto']);
     $jefe =!empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
-    $db->prepare("UPDATE departamentos SET Nombre=?,Presupuesto=?, Jefe? WHERE CodDept")
-       ->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
+    $db->prepare("UPDATE departamentos SET Nombre=?,Presupuesto=?, Jefe? WHERE CodDept");
       flash_set("Departamento actualizado");
        header("Location: listar.php");
        exit; 

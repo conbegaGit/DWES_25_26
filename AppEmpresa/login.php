@@ -13,11 +13,11 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 
     if(!empty($nombre) && !empty($clave)){
         //Preparar y ejecutar la consulta
-        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
-        $stmt->execute([$nombre, $clave]);
+        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE Nombre = ?");
+        $stmt->execute([$nombre]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($user){
+        if($user && password_verify($clave, $user['Clave']) ){
             //Login correcto: almacenar en sesión
             session_regenerate_id(true);
             $_SESSION["user"]=$user;
