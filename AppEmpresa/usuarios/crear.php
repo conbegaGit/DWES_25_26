@@ -9,32 +9,32 @@ $clave = '';
 $rol = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$nombre = trim($_POST['nombre']);
-$clave = trim($_POST['clave']);
-$rol = intval($_POST['rol']);
+    $nombre = trim($_POST['nombre']);
+    $clave = trim($_POST['clave']);
+    $rol = intval($_POST['rol']);
 
-if ($nombre && $clave) {
-$stmt = $bd->prepare("SELECT COUNT(*) FROM usuarios WHERE Nombre = :nombre");
-$stmt->execute([':nombre' => $nombre]);
-if ($stmt->fetchColumn() > 0) {
-flash_set('El usuario ya existe.', 'error');
-} else {
-$sql = "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (:nombre, :clave, :rol)";
-$stmt = $bd->prepare($sql);
-try {
-$stmt->execute([
-':nombre' => $nombre,
-':clave' => $clave,
-':rol' => $rol
-]);
-redirigir('listar.php', 'Usuario creado correctamente.');
-} catch (PDOException $ex) {
-flash_set('Error al crear usuario: ' . e($ex->getMessage()), 'error');
-}
-}
-} else {
-flash_set('Por favor, completa todos los campos.', 'error');
-}
+    if ($nombre && $clave) {
+        $stmt = $bd->prepare("SELECT COUNT(*) FROM usuarios WHERE Nombre = :nombre");
+        $stmt->execute([':nombre' => $nombre]);
+        if ($stmt->fetchColumn() > 0) {
+            flash_set('El usuario ya existe.', 'error');
+        } else {
+            $sql = "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (:nombre, :clave, :rol)";
+            $stmt = $bd->prepare($sql);
+            try {
+                $stmt->execute([
+                    ':nombre' => $nombre,
+                    ':clave' => password_hash($clave, PASSWORD_DEFAULT),
+                    ':rol' => $rol
+                ]);
+                redirigir('listar.php', 'Usuario creado correctamente.');
+            } catch (PDOException $ex) {
+                flash_set('Error al crear usuario: ' . e($ex->getMessage()), 'error');
+            }
+        }
+    } else {
+        flash_set('Por favor, completa todos los campos.', 'error');
+    }
 }
 
 require_once "../includes/header.php";

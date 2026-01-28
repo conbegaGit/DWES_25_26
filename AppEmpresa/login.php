@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!$row) {
                 $error = 'Usuario no encontrado: ' . htmlspecialchars($usuario);
-            } elseif ($row['Clave'] !== $password) {
+            } elseif (!password_verify($password, $row['Clave'])) {
                 $error = 'Usuario o contraseña incorrectos';
             } else {
                 session_regenerate_id(true);
