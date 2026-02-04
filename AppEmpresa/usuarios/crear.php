@@ -1,82 +1,35 @@
 <?php
 session_start();
-
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
-require_once __DIR__ . "/../includes/header.php";
-
+require_admin();
 $nombre = $clave = '';
-$rol = 2;
-
-$roles = [
-    1 => 'admin',
-    2 => 'usuario'
-];
-
-$errores = [];
-
+$rol = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $nombre = trim($_POST['Nombre'] ?? '');
-    $clave = trim($_POST['Clave'] ?? '');
-    $hash = password_hash($clave, PASSWORD_DEFAULT);
-    $rol = (int) ($_POST['Rol'] ?? 2);
-
-    if ($nombre === '') $errores[] = "El nombre es obligatorio";
-    if ($clave === '') $errores[] = "La clave es obligatoria";
-    if (!array_key_exists($rol, $roles)) $errores[] = "Rol no válido";
-
-    if (empty($errores)) {
-        $stmt = $bd->prepare(
-            "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)"
-        );
-        $stmt->execute([$nombre, $hash, $rol]);
-
-        flash_set("Usuario creado");
-        header("Location: listar.php");
-        exit;
-    }
+    $nombre = trim($_POST['Nombre']);
+    $clave = trim($_POST['Clave']);
+    $hash = password_hash(password: $clave, algo: PASSWORD_DEFAULT);
+    $rol = trim($_POST['Rol']);
+    $stmt = $bd->prepare("INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)");
+    $stmt->execute(params: [$nombre, $hash, $rol]);
+    flash_set("Usuario creado");
+    header("Location: listar.php");
+    exit;
 }
+require_once __DIR__ . "/../includes/header.php";
 ?>
-
 <h2>Crear Usuario</h2>
-
-<?php if ($errores): ?>
-<ul class="errores">
-    <?php foreach ($errores as $e): ?>
-        <li><?= e($e) ?></li>
-    <?php endforeach; ?>
-</ul>
-<?php endif; ?>
-
 <form method="post">
-
-<label>
-    Nombre<br>
-    <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
-</label>
-
-<label>
-    Clave<br>
-    <input type="text" name="Clave" value="<?= e($clave) ?>" required>
-</label>
-
-<label>
-    Rol<br>
-    <select name="Rol" required>
-        <?php foreach ($roles as $k => $v): ?>
-            <option value="<?= $k ?>" <?= ($rol === $k) ? 'selected' : '' ?>>
-                <?= ucfirst($v) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</label>
-
-<div class="actions">
-    <button type="submit">Crear</button>
-    <a class="btn" href="listar.php">Cancelar</a>
-</div>
-
+    <label>Nombre<br><input type="text" name="Nombre" value="<?= e($nombre) ?>" required></label>
+    <label>Clave<br><input type="password" name="Clave" value="<?= e($clave) ?>" required></label>
+    <label>Rol<br>
+        <select name="Rol" required>
+            <option value="">-- Selecciona un rol --</option>
+            <option value="0" <?= ($rol == '0') ? 'selected' : '' ?>>Usuario</option>
+            <option value="1" <?= ($rol == '1') ? 'selected' : '' ?>>Administrador</option>
+        </select>
+    </label>
+    <div class="actions"><button type="submit">Crear</button> <a class="btn" href="listar.php">Cancelar</a></div>
 </form>
-
 <?php require_once __DIR__ . "/../includes/footer.php"; ?>

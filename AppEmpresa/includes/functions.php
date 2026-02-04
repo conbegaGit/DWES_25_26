@@ -20,3 +20,8 @@ function flash_get() {
 function is_admin() {
     return isset($_SESSION['user']) && (int)$_SESSION['user']['Rol'] === 1;
 }
+
+function redirect(string $url): void {
+    header("Location: $url");
+    exit;
+}

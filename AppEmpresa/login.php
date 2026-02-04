@@ -1,39 +1,40 @@
 <?php
 session_start();
+
 require_once "./includes/db.php";
 require_once "./includes/functions.php";
-
-$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $usuario = trim($_POST['nombre'] ?? '');
     $clave   = trim($_POST['clave'] ?? '');
 
-    if (!empty($usuario) && !empty($clave)) {
+    if ($usuario !== '' && $clave !== '') {
 
-        $sql = "SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?";
-        $stmt = $bd->prepare($sql);
-        $stmt->execute([$usuario, $clave]);
+        // Buscar usuario SOLO por nombre
+        $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ?");
+        $stmt->execute([$usuario]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            session_regenerate_id(true);
-            $_SESSION["user"] = $user;
+        // Verificar contraseña con hash
+        if ($user && password_verify($clave, $user['Clave'])) {
 
-            header("Location: dashboard.php");
+            session_regenerate_id(true);
+            $_SESSION['user'] = $user;
+
             flash_set("Bienvenid@, " . $user['Nombre']);
+            header("Location: dashboard.php");
             exit;
+
         } else {
-            $error = "Usuario o clave incorrectos.";
+            flash_set("Usuario o clave incorrectos");
             header("Location: index.php");
             exit;
         }
 
     } else {
-        $error = "Debes introducir usuario y clave.";
+        flash_set("Debes introducir usuario y clave");
         header("Location: index.php");
         exit;
     }
 }
-?>

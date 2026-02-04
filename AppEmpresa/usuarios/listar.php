@@ -4,6 +4,7 @@ session_start();
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+require_admin();
 
 if ($_SESSION['user']['Rol'] != 1) {
     header("Location: /AppEmpresa/dashboard.php");
@@ -11,12 +12,13 @@ if ($_SESSION['user']['Rol'] != 1) {
 }
 
 $roles_map = [
-    1 => 'admin',
-    2 => 'usuario'
+    0 => 'admin',
+    1 => 'usuario'
 ];
 
 $stm = $bd->query("SELECT * FROM usuarios ORDER BY Codigo");
 $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
+
 
 require_once __DIR__ . "/../includes/header.php";
 ?>
