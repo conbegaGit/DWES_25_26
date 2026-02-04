@@ -1,9 +1,9 @@
 <?php
 session_start();
-//require_once "includes/auth.php;
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/auth.php";
+require_admin();
 
 
 $Nombre = $Clave = '';
@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $stm = $db->prepare("INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)");
     $stm->execute([$Nombre, $hash, $Rol]);
     flash_set("Usuario creado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 

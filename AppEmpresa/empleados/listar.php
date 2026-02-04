@@ -1,8 +1,9 @@
 <?php
 session_start();
-//require_once "includes/auth.php;
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_login();
 require_once "../includes/header.php";
 
 $stm = $db->query("SELECT e.*, d.Nombre AS Departamento FROM empleados e LEFT JOIN departamentos d ON e.Departamento = d.CodDept ORDER BY e.CodEmple");
