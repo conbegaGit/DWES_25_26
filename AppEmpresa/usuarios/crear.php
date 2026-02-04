@@ -1,60 +1,82 @@
 <?php
 session_start();
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
 
-if (!esAdmin()) {
-    redirigir('../dashboard.php', 'Acceso denegado.', 'error');
-}
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+require_once __DIR__ . "/../includes/header.php";
 
-$nombre = '';
-$clave = '';
-$rol = 0;
+$nombre = $clave = '';
+$rol = 2;
+
+$roles = [
+    1 => 'admin',
+    2 => 'usuario'
+];
+
+$errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre']);
-    $clave = trim($_POST['clave']);
-    $rol = intval($_POST['rol']);
 
-    if ($nombre && $clave) {
-        $stmt = $bd->prepare("SELECT COUNT(*) FROM usuarios WHERE Nombre = :nombre");
-        $stmt->execute([':nombre' => $nombre]);
-        if ($stmt->fetchColumn() > 0) {
-            flash_set('El usuario ya existe.', 'error');
-        } else {
-            $sql = "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (:nombre, :clave, :rol)";
-            $stmt = $bd->prepare($sql);
-            try {
-                $stmt->execute([
-                    ':nombre' => $nombre,
-                    ':clave' => $clave,
-                    ':rol' => $rol
-                ]);
-                redirigir('listar.php', 'Usuario creado correctamente.');
-            } catch (PDOException $ex) {
-                flash_set('Error al crear usuario: ' . e($ex->getMessage()), 'error');
-            }
-        }
-    } else {
-        flash_set('Por favor, completa todos los campos.', 'error');
+    $nombre = trim($_POST['Nombre'] ?? '');
+    $clave = trim($_POST['Clave'] ?? '');
+    $hash = password_hash($clave, PASSWORD_DEFAULT);
+    $rol = (int) ($_POST['Rol'] ?? 2);
+
+    if ($nombre === '') $errores[] = "El nombre es obligatorio";
+    if ($clave === '') $errores[] = "La clave es obligatoria";
+    if (!array_key_exists($rol, $roles)) $errores[] = "Rol no válido";
+
+    if (empty($errores)) {
+        $stmt = $bd->prepare(
+            "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)"
+        );
+        $stmt->execute([$nombre, $hash, $rol]);
+
+        flash_set("Usuario creado");
+        header("Location: listar.php");
+        exit;
     }
 }
-
-require_once "../includes/header.php";
 ?>
+
 <h2>Crear Usuario</h2>
+
+<?php if ($errores): ?>
+<ul class="errores">
+    <?php foreach ($errores as $e): ?>
+        <li><?= e($e) ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
 <form method="post">
-    <label>Nombre: <input type="text" name="nombre" value="<?= e($nombre) ?>" required></label>
-    <label>Contraseña: <input type="password" name="clave" required></label>
-    <label>Rol:
-        <select name="rol">
-            <option value="0">Usuario</option>
-            <option value="1">Administrador</option>
-        </select>
-    </label>
-    <div class="actions">
-        <button type="submit">Crear</button>
-        <a class="bin" href="listar.php">Cancelar</a>
-    </div>
+
+<label>
+    Nombre<br>
+    <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
+</label>
+
+<label>
+    Clave<br>
+    <input type="text" name="Clave" value="<?= e($clave) ?>" required>
+</label>
+
+<label>
+    Rol<br>
+    <select name="Rol" required>
+        <?php foreach ($roles as $k => $v): ?>
+            <option value="<?= $k ?>" <?= ($rol === $k) ? 'selected' : '' ?>>
+                <?= ucfirst($v) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</label>
+
+<div class="actions">
+    <button type="submit">Crear</button>
+    <a class="btn" href="listar.php">Cancelar</a>
+</div>
+
 </form>
-<?php require_once "../includes/footer.php"; ?>
+
+<?php require_once __DIR__ . "/../includes/footer.php"; ?>

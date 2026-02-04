@@ -1,48 +1,39 @@
 <?php
 session_start();
+require_once "./includes/db.php";
+require_once "./includes/functions.php";
 
-// Si ya hay sesión activa, redirigir al dashboard
-if (isset($_SESSION['user'])) {
-    header('Location: dashboard.php');
-    exit();
-}
+$error = "";
 
-require_once "includes/db.php"; // conexion a la BBDD
-require_once "includes/functions.php";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-$error = '';
+    $usuario = trim($_POST['nombre'] ?? '');
+    $clave   = trim($_POST['clave'] ?? '');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
+    if (!empty($usuario) && !empty($clave)) {
 
-        if (empty($usuario) || empty($password)) {
-            $error = 'Por favor completa todos los campos';
+        $sql = "SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?";
+        $stmt = $bd->prepare($sql);
+        $stmt->execute([$usuario, $clave]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            session_regenerate_id(true);
+            $_SESSION["user"] = $user;
+
+            header("Location: dashboard.php");
+            flash_set("Bienvenid@, " . $user['Nombre']);
+            exit;
         } else {
-            // Preparar y ejecutar consulta segura con PDO
-            $stmt = $bd->prepare('SELECT Clave, Rol FROM usuarios WHERE Nombre = :usuario LIMIT 1');
-            $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$row) {
-                $error = 'Usuario no encontrado: ' . htmlspecialchars($usuario);
-            } elseif ($row['Clave'] !== $password) {
-                $error = 'Usuario o contraseña incorrectos';
-            } else {
-                session_regenerate_id(true);
-                $_SESSION['user'] = [
-                    'Nombre' => $usuario,
-                    'Rol' => $row['Rol']
-                ];
-                flash_set("Bienvenido " . $usuario);
-                header('Location: dashboard.php');
-                exit();
-            }
+            $error = "Usuario o clave incorrectos.";
+            header("Location: index.php");
+            exit;
         }
-    } catch (Exception $e) {
-        $error = 'Error. Inténtalo más tarde.';
-        error_log('Login error: ' . $e->getMessage());
+
+    } else {
+        $error = "Debes introducir usuario y clave.";
+        header("Location: index.php");
+        exit;
     }
 }
+?>

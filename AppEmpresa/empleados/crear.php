@@ -1,52 +1,75 @@
 <?php
 session_start();
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
-require_once "../includes/header.php";
 
-// Obtener departamentos para el select
-$stmt_dept = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre");
-$departamentos = $stmt_dept->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+
+$nombre = $apellido1 = $apellido2 = '';
+$departamento = null;
+
+$deps = $bd->query(
+    "SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre"
+)->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre'] ?? '');
-    $apellido1 = trim($_POST['apellido1'] ?? '');
-    $apellido2 = trim($_POST['apellido2'] ?? '');
-    $departamento = $_POST['departamento'] ?? '';
 
-    if ($nombre && $apellido1 && $apellido2 && $departamento) {
-        $sql = "INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (:nombre, :apellido1, :apellido2, :departamento)";
-        $stmt = $bd->prepare($sql);
-        try {
-            $stmt->execute([
-                ':nombre' => $nombre,
-                ':apellido1' => $apellido1,
-                ':apellido2' => $apellido2,
-                ':departamento' => $departamento
-            ]);
-            redirigir('listar.php', 'Empleado creado correctamente.');
-        } catch (PDOException $ex) {
-            echo "<p class='error'>Error al crear empleado: " . e($ex->getMessage()) . "</p>";
-        }
-    } else {
-        echo "<p class='error'>Por favor, completa todos los campos.</p>";
+    $nombre = trim($_POST['Nombre'] ?? '');
+    $apellido1 = trim($_POST['Apellido1'] ?? '');
+    $apellido2 = trim($_POST['Apellido2'] ?? '');
+    $departamento = $_POST['Departamento'] !== '' ? (int)$_POST['Departamento'] : null;
+
+    if ($nombre && $apellido1) {
+        $stmt = $bd->prepare(
+            "INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento)
+             VALUES (?, ?, ?, ?)"
+        );
+        $stmt->execute([$nombre, $apellido1, $apellido2, $departamento]);
+
+        flash_set("Empleado creado.");
+        header("Location: listar.php");
+        exit;
     }
 }
+
+require_once __DIR__ . "/../includes/header.php";
 ?>
-<h2>Nuevo Empleado</h2>
-<form method="post" action="crear.php">
-    <label>Nombre: <input type="text" name="nombre" required></label><br>
-    <label>Apellido 1: <input type="text" name="apellido1" required></label><br>
-    <label>Apellido 2: <input type="text" name="apellido2" required></label><br>
-    <label>Departamento:
-        <select name="departamento" required>
-            <option value="">-- Selecciona --</option>
-            <?php foreach ($departamentos as $dept): ?>
-                <option value="<?= $dept['CodDept'] ?>"><?= e($dept['Nombre']) ?></option>
+
+<h2>Crear empleado</h2>
+
+<form method="post">
+    <label>
+        Nombre<br>
+        <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
+    </label>
+
+    <label>
+        Apellido 1<br>
+        <input type="text" name="Apellido1" value="<?= e($apellido1) ?>" required>
+    </label>
+
+    <label>
+        Apellido 2<br>
+        <input type="text" name="Apellido2" value="<?= e($apellido2) ?>">
+    </label>
+
+    <label>
+        Departamento<br>
+        <select name="Departamento">
+            <option value="">-- Sin departamento --</option>
+            <?php foreach ($deps as $d): ?>
+                <option value="<?= $d['CodDept'] ?>"
+                    <?= ($departamento == $d['CodDept']) ? 'selected' : '' ?>>
+                    <?= e($d['Nombre']) ?>
+                </option>
             <?php endforeach; ?>
         </select>
-    </label><br>
-    <input type="submit" value="Guardar">
+    </label>
+
+    <div class="actions">
+        <button type="submit">Crear</button>
+        <a class="btn" href="listar.php">Cancelar</a>
+    </div>
 </form>
-<p><a href="listar.php">Volver al listado</a></p>
-<?php require_once "../includes/footer.php"; ?>
+
+<?php require_once __DIR__ . "/../includes/footer.php"; ?>

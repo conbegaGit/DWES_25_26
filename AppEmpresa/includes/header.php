@@ -1,40 +1,45 @@
 <?php
-if (!isset($_SESSION))
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/AppEmpresa/css/style.css">
+    <meta charset="utf-8">
     <title>Empresa - Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/AppEmpresa/css/style.css">
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="wrap">
-            <h1 class="logo">Empresa</h1>
-            <nav class="main-nav">
-                <a href="/AppEmpresa/dashboard.php">Inicio</a>
-                <a href="/AppEmpresa/departamentos/listar.php">Departamentos</a>
-                <a href="/AppEmpresa/empleados/listar.php">Empleados</a>
+<header class="site-header">
+    <div class="wrap">
+        <h1 class="logo">
+            <a href="/AppEmpresa/dashboard.php">Empresa</a>
+        </h1>
+
+        <nav class="main-nav">
+            <a href="/AppEmpresa/dashboard.php">Inicio</a>
+            <a href="/AppEmpresa/departamentos/listar.php">Departamentos</a>
+            <a href="/AppEmpresa/empleados/listar.php">Empleados</a>
+
+            <?php if (isset($_SESSION['user']) && (int)$_SESSION['user']['Rol'] === 1): ?>
                 <a href="/AppEmpresa/usuarios/listar.php">Usuarios</a>
-                <?php if (isset($_SESSION['user'])): ?>
-                    <a class="logout" href="/AppEmpresa/logout.php">Salir (<?= e($_SESSION['user']['Nombre']) ?>)</a>
-                <?php endif; ?>
-            </nav>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['user'])): ?>
+                <a href="/AppEmpresa/logout.php">
+                    Salir (<?= htmlspecialchars($_SESSION['user']['Nombre'], ENT_QUOTES, 'UTF-8') ?>)
+                </a>
+            <?php endif; ?>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+    <?php if ($flash = flash_get()): ?>
+        <div class="flash">
+            <?=e($flash)?>
         </div>
-    </header>
-    <main class="wrap">
-        <?php
-        if (function_exists('flash_get')) {
-            $flash = flash_get();
-            if ($flash): ?>
-                <div class="flash <?= e($flash['tipo']) ?>">
-                    <?= e($flash['mensaje']) ?>
-                </div>
-            <?php endif;
-        }
-        ?>
+    <?php endif; ?>

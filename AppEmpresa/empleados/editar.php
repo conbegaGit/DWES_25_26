@@ -1,71 +1,89 @@
 <?php
 session_start();
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
-require_once "../includes/header.php";
 
-$id = $_GET['id'] ?? null;
-if (!$id) {
-    redirigir('listar.php', 'ID de empleado no especificado.', 'error');
+require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+
+$id = (int)($_GET['id'] ?? 0);
+
+$stmt = $bd->prepare("SELECT * FROM empleados WHERE CodEmple = ?");
+$stmt->execute([$id]);
+$emp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$emp) {
+    header("Location: listar.php");
+    exit;
 }
 
-// Obtener datos del empleado
-$stmt = $bd->prepare("SELECT * FROM empleados WHERE CodEmple = :id");
-$stmt->execute([':id' => $id]);
-$empleado = $stmt->fetch(PDO::FETCH_ASSOC);
+$nombre = $emp['Nombre'];
+$apellido1 = $emp['Apellido1'];
+$apellido2 = $emp['Apellido2'];
+$departamento = $emp['Departamento'];
 
-if (!$empleado) {
-    redirigir('listar.php', 'Empleado no encontrado.', 'error');
-}
-
-// Obtener departamentos para el select
-$stmt_dept = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre");
-$departamentos = $stmt_dept->fetchAll(PDO::FETCH_ASSOC);
+$deps = $bd->query(
+    "SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre"
+)->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre'] ?? '');
-    $apellido1 = trim($_POST['apellido1'] ?? '');
-    $apellido2 = trim($_POST['apellido2'] ?? '');
-    $departamento = $_POST['departamento'] ?? '';
 
-    if ($nombre && $apellido1 && $apellido2 && $departamento) {
-        $sql = "UPDATE empleados SET Nombre = :nombre, Apellido1 = :apellido1, Apellido2 = :apellido2, Departamento = :departamento WHERE CodEmple = :id";
-        $stmt_update = $bd->prepare($sql);
-        try {
-            $stmt_update->execute([
-                ':nombre' => $nombre,
-                ':apellido1' => $apellido1,
-                ':apellido2' => $apellido2,
-                ':departamento' => $departamento,
-                ':id' => $id
-            ]);
-            redirigir('listar.php', 'Empleado actualizado correctamente.');
-        } catch (PDOException $ex) {
-            echo "<p class='error'>Error al actualizar empleado: " . e($ex->getMessage()) . "</p>";
-        }
-    } else {
-        echo "<p class='error'>Por favor, completa todos los campos.</p>";
+    $nombre = trim($_POST['Nombre'] ?? '');
+    $apellido1 = trim($_POST['Apellido1'] ?? '');
+    $apellido2 = trim($_POST['Apellido2'] ?? '');
+    $departamento = $_POST['Departamento'] !== '' ? (int)$_POST['Departamento'] : null;
+
+    if ($nombre && $apellido1) {
+        $stmt = $bd->prepare(
+            "UPDATE empleados
+             SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, Departamento = ?
+             WHERE CodEmple = ?"
+        );
+        $stmt->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
+
+        flash_set("Empleado actualizado");
+        header("Location: listar.php");
+        exit;
     }
 }
+
+require_once __DIR__ . "/../includes/header.php";
 ?>
-<h2>Editar Empleado</h2>
-<form method="post" action="editar.php?id=<?= $id ?>">
-    <label>Nombre: <input type="text" name="nombre" value="<?= e($empleado['Nombre']) ?>" required></label><br>
-    <label>Apellido 1: <input type="text" name="apellido1" value="<?= e($empleado['Apellido1']) ?>"
-            required></label><br>
-    <label>Apellido 2: <input type="text" name="apellido2" value="<?= e($empleado['Apellido2']) ?>"
-            required></label><br>
-    <label>Departamento:
-        <select name="departamento" required>
-            <option value="">-- Selecciona --</option>
-            <?php foreach ($departamentos as $dept): ?>
-                <option value="<?= $dept['CodDept'] ?>" <?= $dept['CodDept'] == $empleado['Departamento'] ? 'selected' : '' ?>>
-                    <?= e($dept['Nombre']) ?>
+
+<h2>Editar empleado</h2>
+
+<form method="post">
+    <label>
+        Nombre<br>
+        <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
+    </label>
+
+    <label>
+        Apellido 1<br>
+        <input type="text" name="Apellido1" value="<?= e($apellido1) ?>" required>
+    </label>
+
+    <label>
+        Apellido 2<br>
+        <input type="text" name="Apellido2" value="<?= e($apellido2) ?>">
+    </label>
+
+    <label>
+        Departamento<br>
+        <select name="Departamento">
+            <option value="">-- Sin departamento --</option>
+            <?php foreach ($deps as $d): ?>
+                <option value="<?= $d['CodDept'] ?>"
+                    <?= ($departamento == $d['CodDept']) ? 'selected' : '' ?>>
+                    <?= e($d['Nombre']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
-    </label><br>
-    <input type="submit" value="Guardar Cambios">
+    </label>
+
+    <div class="actions">
+        <button type="submit">Guardar cambios</button>
+        <a class="btn" href="listar.php">Cancelar</a>
+    </div>
 </form>
-<p><a href="listar.php">Volver al listado</a></p>
-<?php require_once "../includes/footer.php"; ?>
+
+<?php require_once __DIR__ . "/../includes/footer.php"; ?>

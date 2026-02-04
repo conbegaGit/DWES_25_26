@@ -1,18 +1,16 @@
 <?php
 session_start();
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
 
-$id = $_GET['id'] ?? null;
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
 
-if ($id) {
-    $stmt = $bd->prepare("DELETE FROM empleados WHERE CodEmple = :id");
-    try {
-        $stmt->execute([':id' => $id]);
-        redirigir('listar.php', 'Empleado borrado correctamente.');
-    } catch (PDOException $ex) {
-        redirigir('listar.php', 'Error al borrar empleado: ' . $ex->getMessage(), 'error');
-    }
-} else {
-    redirigir('listar.php', 'ID de empleado no especificado.', 'error');
+$id = (int) ($_GET['id'] ?? 0);
+
+if ($id > 0) {
+    $stmt = $bd->prepare("DELETE FROM empleados WHERE CodEmple = ?");
+    $stmt->execute([$id]);
+    flash_set("Empleado borrado");
 }
+
+header("Location: listar.php");
+exit;
