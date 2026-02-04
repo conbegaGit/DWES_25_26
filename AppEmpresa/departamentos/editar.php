@@ -1,8 +1,11 @@
 <?php
 session_start();
-//require_once "includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
+
 require_once "../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -43,12 +46,12 @@ require_once "../includes/header.php";
     <label>Jefe<br>
         <select name="Jefe">
             <option value="">-- Ninguno --</option>
-                <?php foreach ($emps as $em): ?>
+            <?php foreach ($emps as $em): ?>
                 <option value="<?= $em['CodEmple'] ?>" <?= ($dept['Jefe'] == $em['CodEmple'] ? 'selected' : '') ?>>
-                            <?= e($em['Nombre'] . ' ' . $em['Apellido1']) ?>
+                    <?= e($em['Nombre'] . ' ' . $em['Apellido1']) ?>
                 </option>
             <?php endforeach;
-                ?>
+            ?>
         </select>
     </label>
     <div class="actions"><button type="submit">Guardar</button><a class="bin" href="listar.php">Cancelar</a></div>

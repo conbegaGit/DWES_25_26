@@ -2,11 +2,15 @@
 session_start();
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
+
 require_once "../includes/header.php";
 
 $id = $_GET['id'] ?? null;
 if (!$id) {
-    redirigir('listar.php', 'ID de empleado no especificado.', 'error');
+    redirect('listar.php', 'ID de empleado no especificado.', 'error');
 }
 
 // Obtener datos del empleado
@@ -15,7 +19,7 @@ $stmt->execute([':id' => $id]);
 $empleado = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$empleado) {
-    redirigir('listar.php', 'Empleado no encontrado.', 'error');
+    redirect('listar.php', 'Empleado no encontrado.', 'error');
 }
 
 // Obtener departamentos para el select
@@ -39,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':departamento' => $departamento,
                 ':id' => $id
             ]);
-            redirigir('listar.php', 'Empleado actualizado correctamente.');
+            redirect('listar.php', 'Empleado actualizado correctamente.');
         } catch (PDOException $ex) {
             echo "<p class='error'>Error al actualizar empleado: " . e($ex->getMessage()) . "</p>";
         }

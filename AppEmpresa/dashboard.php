@@ -1,7 +1,10 @@
 <?php
-//require_once "includes/auth.php";
+require_once "includes/auth.php";
 require_once "includes/db.php";
 require_once "includes/functions.php";
+
+verificarLogueado(); // cualquier usuario logueado
+
 require_once "includes/header.php";
 
 $tot_dept = $bd->query("SELECT COUNT(*) FROM departamentos")->fetchColumn();

@@ -28,7 +28,7 @@ function flash_get()
 }
 
 // Redirige a una URL y detiene la ejecución
-function redirigir($url, $msg = null, $tipo = 'success')
+function redirect($url, $msg = null, $tipo = 'success')
 {
     if ($msg) {
         flash_set($msg, $tipo);
@@ -48,21 +48,4 @@ function esAdmin()
 {
     return isset($_SESSION['user'])
         && intval($_SESSION['user']['Rol']) === 1;
-}
-
-// Middleware: Verifica si está logueado, sino redirige a login
-function verificarLogueado()
-{
-    if (!estaLogueado()) {
-        redirigir('/AppEmpresa/login.php', 'Debes iniciar sesión para acceder.', 'error');
-    }
-}
-
-// Middleware: Verifica si es admin, sino redirige
-function verificarAdmin()
-{
-    verificarLogueado();
-    if (!esAdmin()) {
-        redirigir('/AppEmpresa/dashboard.php', 'Acceso denegado.', 'error');
-    }
 }

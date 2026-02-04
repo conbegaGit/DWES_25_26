@@ -1,12 +1,15 @@
 <?php
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
 
 verificarAdmin();
 
 $id = $_GET['id'] ?? null;
 if (!$id) {
-    redirigir('listar.php', 'ID de usuario no especificado.', 'error');
+    redirect('listar.php', 'ID de usuario no especificado.', 'error');
 }
 
 $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Codigo = :id");
@@ -14,7 +17,7 @@ $stmt->execute([':id' => $id]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$usuario) {
-    redirigir('listar.php', 'Usuario no encontrado.', 'error');
+    redirect('listar.php', 'Usuario no encontrado.', 'error');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $bd->prepare($sql);
             $stmt->execute($params);
-            redirigir('listar.php', 'Usuario actualizado correctamente.');
+            redirect('listar.php', 'Usuario actualizado correctamente.');
         } catch (PDOException $ex) {
             flash_set('Error al actualizar usuario: ' . e($ex->getMessage()), 'error');
         }

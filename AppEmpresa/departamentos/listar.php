@@ -1,8 +1,11 @@
 <?php
 session_start();
-//require_once "includes/auth.php";
+require_once "includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+
+verificarLogueado(); // cualquier usuario logueado
+
 require_once "../includes/header.php";
 
 $stm = $bd->query("SELECT d.*, e.Nombre AS JefeNombre FROM departamentos d LEFT JOIN empleados e ON d.jefe = e.CodEmple ORDER BY d.CodDept");

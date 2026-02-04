@@ -14,6 +14,9 @@ if (isset($_SESSION['user'])) {
 
 require_once "includes/db.php"; // conexion a la BBDD
 require_once "includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
 
 $error = '';
 
@@ -54,22 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Empresa</title>
     <link rel="stylesheet" href="/AppEmpresa/css/style.css">
 </head>
+
 <body class="login-body">
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
-        
+
         <?php if (!empty($error)): ?>
-                <div class="flash error">
-                    <?= htmlspecialchars($error) ?>
-                </div>
+            <div class="flash error">
+                <?= htmlspecialchars($error) ?>
+            </div>
         <?php endif; ?>
-        
+
         <form method="POST" action="login.php">
             <label>
                 Usuario
@@ -85,4 +90,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>

@@ -2,6 +2,10 @@
 session_start();
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
+
 require_once "../includes/header.php";
 
 // Obtener departamentos para el select
@@ -24,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':apellido2' => $apellido2,
                 ':departamento' => $departamento
             ]);
-            redirigir('listar.php', 'Empleado creado correctamente.');
+            redirect('listar.php', 'Empleado creado correctamente.');
         } catch (PDOException $ex) {
             echo "<p class='error'>Error al crear empleado: " . e($ex->getMessage()) . "</p>";
         }

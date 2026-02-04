@@ -1,6 +1,9 @@
 <?php
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
 
 verificarAdmin();
 
@@ -27,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':clave' => password_hash($clave, PASSWORD_DEFAULT),
                     ':rol' => $rol
                 ]);
-                redirigir('listar.php', 'Usuario creado correctamente.');
+                redirect('listar.php', 'Usuario creado correctamente.');
             } catch (PDOException $ex) {
                 flash_set('Error al crear usuario: ' . e($ex->getMessage()), 'error');
             }

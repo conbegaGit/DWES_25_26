@@ -1,6 +1,9 @@
 <?php
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_once "../includes/auth.php";
+
+verificarLogueado(); // cualquier usuario logueado
 
 verificarAdmin();
 
@@ -13,16 +16,16 @@ if ($id) {
     $userToDelete = $stmt->fetchColumn();
 
     if ($userToDelete === $_SESSION['user']['Nombre']) {
-        redirigir('listar.php', 'No puedes borrar tu propio usuario.', 'error');
+        redirect('listar.php', 'No puedes borrar tu propio usuario.', 'error');
     } else {
         $stmt = $bd->prepare("DELETE FROM usuarios WHERE Codigo = :id");
         try {
             $stmt->execute([':id' => $id]);
-            redirigir('listar.php', 'Usuario borrado correctamente.');
+            redirect('listar.php', 'Usuario borrado correctamente.');
         } catch (PDOException $ex) {
-            redirigir('listar.php', 'Error al borrar usuario: ' . e($ex->getMessage()), 'error');
+            redirect('listar.php', 'Error al borrar usuario: ' . e($ex->getMessage()), 'error');
         }
     }
 } else {
-    redirigir('listar.php', 'ID de usuario no especificado.', 'error');
+    redirect('listar.php', 'ID de usuario no especificado.', 'error');
 }
