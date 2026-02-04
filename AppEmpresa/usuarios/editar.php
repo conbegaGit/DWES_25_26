@@ -1,5 +1,5 @@
-<?php 
-session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
+<?php
+session_start(); //si no esta creada la sesión, la crea, sino la mantiene
 //require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
@@ -21,9 +21,16 @@ $dept = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
+
+    if (!Empty ($_POST['Clave'])) {
+        $clave = trim($_POST['Clave']);
+    } else {
+        $clave = $emp['Clave'];
+    }
+    $Clavehash = password_hash($clave, PASSWORD_DEFAULT);
     $rol = trim($_POST['Rol']);
     $bd->prepare("UPDATE usuarios SET Nombre = ?, Clave = ?, Rol = ? WHERE Codigo = ?")
-     -> execute([$nombre, $clave, $rol, $id]);
+     -> execute([$nombre, $Clavehash, $rol, $id]);
     flash_set("Usuario actualizado.");
     header("Location: listar.php");
     exit;

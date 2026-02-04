@@ -1,5 +1,5 @@
-<?php 
-session_start(); //si no esta creada la sesión, la crea, sino la mantiene 
+<?php
+session_start(); //si no esta creada la sesión, la crea, sino la mantiene
 //require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
@@ -10,11 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $codigo = intval ( $_POST['Codigo']);
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
+    $Clavehash = password_hash($clave, PASSWORD_DEFAULT);
     $rol = trim($_POST['Rol']);
     $stmt = $bd->prepare("INSERT INTO usuarios (Codigo, Nombre, Clave, Rol) VALUES (?,?,?,?)");
-    $stmt->execute([$codigo, $nombre, $clave, $rol]);
+    $stmt->execute([$codigo, $nombre, $Clavehash, $rol]);
     flash_set("Usuario creado.");
-    header("Location: listar.php"); 
+    header("Location: listar.php");
     exit();
 }
 require_once "../includes/header.php";

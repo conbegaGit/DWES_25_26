@@ -9,7 +9,7 @@ $stmt = $bd->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$dept) {
-    //flash_set("Departamento no encontrado");
+    flash_set("Departamento no encontrado");
     header("Location: listar.php");
     exit;
 }
