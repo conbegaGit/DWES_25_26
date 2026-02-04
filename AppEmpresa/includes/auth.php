@@ -1,6 +1,18 @@
 <?php
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
+
+function require_login(): void
+{
+    if (empty($_SESSION['user'])) {
+        flash_set("Debes iniciar sesión para acceder a esta página.");
+        redirect("login.php");
+    }
 }
-?>
+
+function require_admin(): void
+{
+    require_login();
+    if ($_SESSION['user']['Rol'] != 1) {
+        flash_set("No tienes permisos para acceder a esta página.");
+        redirect("/AppEmpresa/dashboard.php");
+    }
+}

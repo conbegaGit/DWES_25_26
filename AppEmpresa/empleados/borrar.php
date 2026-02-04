@@ -1,13 +1,14 @@
 <?php
 session_start();
-require_once __DIR__ . "/../includes/auth.php";
-require_once __DIR__ . "/../includes/db.php";
-require_once __DIR__ . "/../includes/functions.php";
+require_once "../includes/auth.php";
+require_once "../includes/db.php";
+require_once "../includes/functions.php";
+require_login();
+require_admin();
 
 $id = intval($_GET['id'] ?? 0);
 if ($id) {
-    $bd->prepare("DELETE FROM empleados WHERE CodEmple = ?")->execute([$id]);
+    $stmt = $bd->prepare("DELETE FROM empleados WHERE CodEmple = ?")->execute([$id]);
     flash_set("Empleado borrado");
 }
-header("Location: listar.php");
-exit;
+redirect("listar.php");

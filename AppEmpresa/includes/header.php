@@ -1,6 +1,7 @@
 <?php
-if (!isset($_SESSION)) session_start();
-require_once __DIR__ . "/functions.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!doctype html>
@@ -20,10 +21,9 @@ require_once __DIR__ . "/functions.php";
             <a href="/AppEmpresa/departamentos/listar.php">Departamentos</a>
             <a href="/AppEmpresa/empleados/listar.php">Empleados</a>
 
-            <?php if (isset($_SESSION["user"]) && $_SESSION["user"]["Rol"] == 1): ?>
+            <?php if ($_SESSION["user"]["Rol"] == 1): ?>
                 <a href="/AppEmpresa/usuarios/listar.php">Usuarios</a>
             <?php endif; ?>
-
             <?php if (isset($_SESSION['user'])): ?>
                 <a href="/AppEmpresa/logout.php"> Salir (<?= htmlspecialchars($_SESSION['user']['Nombre']) ?>)
                 </a>
@@ -32,8 +32,8 @@ require_once __DIR__ . "/functions.php";
     </div>
 </header>
 <main class="wrap">
-    <?php if ($flash = flash_get()): ?>
-        <div class="flash">
-            <?= e($flash)?>
-        </div>
-    <?php endif; ?>
+<?php if ($msg = flash_get()): ?>
+    <div class="flash">
+        <?= e($msg) ?>
+    </div>
+<?php endif; ?>

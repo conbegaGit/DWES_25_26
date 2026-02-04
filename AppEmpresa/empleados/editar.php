@@ -1,43 +1,39 @@
 <?php
-session_start();
-require_once __DIR__ . "/../includes/auth.php";
+if(!isset($_SESSION)) session_start(); 
 require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/functions.php";
+require_login();
+require_admin();
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
-$stmt = $bd->prepare("SELECT CodEmple, Nombre, Apellido1, Apellido2, Departamento FROM empleados WHERE CodEmple = ?");
+$stmt = $bd->prepare("SELECT * FROM empleados WHERE CodEmple = ?");
 $stmt->execute([$id]);
 $emp = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$emp) {
-    flash_set("Empleado no encontrado");
-    header("Location: listar.php");
-    exit();
+    redirect("listar.php");
 }
 
 $nombre = $emp['Nombre'];
-$apellido1 = $emp['Apellido1'];
-$apellido2 = $emp['Apellido2'];
+$Apellido1 = $emp['Apellido1'];
+$Apellido2 = $emp['Apellido2'];
 $departamento = $emp['Departamento'];
 
-$depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
+$emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
+$depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre") ->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre'] ?? '');
-    $apellido1 = trim($_POST['Apellido1'] ?? '');
-    $apellido2 = trim($_POST['Apellido2'] ?? '');
-    $departamento = trim($_POST['Departamento'] ?? '');
+    $Apellido1 = trim($_POST['Apellido1'] ?? '');
+    $Apellido2 = trim($_POST['Apellido2'] ?? '');
+    $departamento = !empty($_POST['Departamento']) ? intval($_POST['Departamento']) : null;
 
-    if ($nombre && $apellido1 && $apellido2 && $departamento) {
+    if ($nombre && $Apellido1 && $Apellido2 && $departamento) {
         $stmt = $bd->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?");
-        $stmt->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
-
-        flash_set("Empleado actualizado");
-        header("Location: listar.php");
-        exit;
-    } else {
-        flash_set("Error: Verifica que los campos sean correctos.");
+        $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento, $id]);
+        redirect("listar.php");
     }
 }
 ?>
@@ -51,21 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <label>
         Apellido 1<br>
-        <input type="text" name="Apellido1" value="<?= e($apellido1) ?>" required>
+        <input type="text" name="Apellido1" value="<?= e($Apellido1) ?>" required>
     </label>
 
     <label>
         Apellido 2<br>
-        <input type="text" name="Apellido2" value="<?= e($apellido2) ?>" required>
+        <input type="text" name="Apellido2" value="<?= e($Apellido2) ?>" required>
     </label>
 
     <label>
         Departamento<br>
         <select name="Departamento" required>
-            <option value="">-- Selecciona un departamento --</option>
-            <?php foreach ($depts as $d): ?>
-                <option value="<?= e($d['CodDept']) ?>" <?= ($departamento == $d['CodDept']) ? 'selected' : '' ?>>
-                    <?= e($d['Nombre']) ?>
+            <option value="">-- Ninguno --</option>
+            <?php foreach($depts as $dept): ?>
+                <option value="<?= $dept['CodDept'] ?>" 
+                    <?= ($departamento == $dept['CodDept']) ? 'selected' : '' ?>>
+                    <?= e($dept['Nombre']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
