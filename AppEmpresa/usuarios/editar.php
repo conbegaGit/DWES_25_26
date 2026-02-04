@@ -1,8 +1,12 @@
 <?php
+
 session_start();
-//require_once "includes/auth.php";
+
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+
+require_admin();
 
 $id = intval($_GET['id'] ?? 0);
 $stmt = $db->prepare("SELECT * FROM usuarios WHERE Codigo = ?");
@@ -10,7 +14,7 @@ $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$dept){
     flash_set("Empleado no encontrado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 $emps = $db->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre")
@@ -27,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $db->prepare("UPDATE usuarios SET Nombre=?, Rol=? WHERE Codigo=?")->execute([$nombre, $rol, $id]);
     }*/
     flash_set("Usuario actualizado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 

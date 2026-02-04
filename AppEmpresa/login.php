@@ -23,14 +23,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $_SESSION["user"] = $user;
 
             flash_set("Bienvenido " . $_SESSION['user']['Nombre']);
-            header("Location: dashboard.php");
+            redirect("dashboard.php");
             exit;
         } else{
             $error = "Usuario o clave incorrectos.";
-            header("Location: index.php");
+            redirect("index.php");
         }
     } else{
         $error = "Usuario o clave incorrectos.";
-        header("Location: index.php");
+        redirect("index.php");
     }
 }

@@ -1,9 +1,13 @@
 <?php
+
 session_start();
-//require_once "includes/auth.php";
+
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/header.php";
+
+require_admin();
 
 $nombre = $apellido1 = $apellido2 = "";
 $departamento = '';
@@ -16,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $stm = $db->prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (?, ?, ?, ?)");
     $stm->execute([$nombre, $apellido1, $apellido2, $departamento]);
     flash_set("Empleado Creado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 $emps = $db->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")

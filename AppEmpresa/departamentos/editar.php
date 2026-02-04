@@ -1,8 +1,12 @@
 <?php
+
 session_start();
-//require_once "includes/auth.php";
+
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+
+require_admin();
 
 $id = intval($_GET['id'] ?? 0);
 $stmt = $db->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
@@ -10,7 +14,7 @@ $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$dept){
     flash_set("Departamento no encontrado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 
@@ -21,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
     $db->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?")->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
     flash_set("Departamento actualizado");
-    header("Location: listar.php");
+    redirect("listar.php");
     exit;
 }
 

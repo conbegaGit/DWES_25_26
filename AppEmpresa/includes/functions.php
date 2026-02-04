@@ -12,6 +12,10 @@ function flash_set($msg){
     $_SESSION['flash'] = $msg;
 }
 
+function redirect($url){
+    header("Location: {$url}");
+}
+
 function flash_get(){
     if(!isset($_SESSION)) session_start();
     if(isset($_SESSION['flash'])){
