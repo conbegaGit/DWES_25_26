@@ -9,7 +9,7 @@ $stmt = $bd->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$dept) {
-    //flash_set("Departamento no encontrado");
+    flash_set("Departamento no encontrado");
     header("Location: listar.php");
     exit;
 }
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
     $bd->prepare("UPDATE departamentos SET Nombre = ?, Ciudad = ?, Presupuesto = ?, Jefe = ? WHERE CodDept = ?") 
      -> execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
-   // flash_set("Departamento actualizado.");
+    flash_set("Departamento actualizado.");
     header("Location: listar.php"); 
     exit;
 }
@@ -33,7 +33,7 @@ require_once "../includes/header.php";
 <h2>Editar Departamento</h2>
 <form method="post">
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($dept['Nombre']) ?>" required></label>
-    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($dept['Ciudad']) ?>" required></label>
+    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($dept['Ciudad']) ?>" required></label>>
     <label>Presupuesto<br><input type="number" name="Presupuesto"  value="<?= e($dept['Presupuesto']) ?>" required></label>
     <label>
         Jefe <br>

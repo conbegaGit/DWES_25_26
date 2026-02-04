@@ -35,24 +35,16 @@ CREATE TABLE IF NOT EXISTS `empleados` (
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `Codigo` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(20) NOT NULL,
-  `Clave` VARCHAR(20) NOT NULL,
+  `Clave` VARCHAR(255) NOT NULL,
   `Rol` INT(11) NOT NULL,
   PRIMARY KEY (`Codigo`),
   UNIQUE KEY `Nombre` (`Nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
--- Relaciones entre tablas
+-- IMPORTANTE: Modificar columna Clave si ya existe la tabla
 -- --------------------------------------------------------
-ALTER TABLE `departamentos`
-  ADD CONSTRAINT IF NOT EXISTS `departamentos_ibfk_1` 
-  FOREIGN KEY (`Jefe`) REFERENCES `empleados` (`CodEmple`) 
-  ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE `empleados`
-  ADD CONSTRAINT IF NOT EXISTS `empleados_ibfk_1` 
-  FOREIGN KEY (`Departamento`) REFERENCES `departamentos` (`CodDept`) 
-  ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `usuarios` MODIFY `Clave` VARCHAR(255) NOT NULL;
 
 -- --------------------------------------------------------
 -- Insertar departamentos de manera segura
@@ -75,29 +67,13 @@ INSERT INTO `empleados` (`CodEmple`, `Nombre`, `Apellido1`, `Apellido2`, `Depart
 SELECT 5, 'Eloisa', 'Puertas', 'Torres', 4 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM empleados WHERE CodEmple=5);
 
 -- --------------------------------------------------------
--- Actualizar jefe de departamentos solo si es NULL
+-- Crear relaciones entre tablas (solo si no existen)
 -- --------------------------------------------------------
-UPDATE `departamentos` SET `Jefe`=1 WHERE `CodDept`=3 AND (`Jefe` IS NULL OR `Jefe`<>1);
-UPDATE `departamentos` SET `Jefe`=4 WHERE `CodDept`=4 AND (`Jefe` IS NULL OR `Jefe`<>4);
-
--- --------------------------------------------------------
--- Insertar usuarios de manera segura
--- --------------------------------------------------------
-INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
-SELECT 1, 'ana', '1234', 1 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=1);
-INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
-SELECT 3, 'paco', '1234', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=3);
-INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
-SELECT 4, 'Pedro', '33333', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=4);
-INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
-SELECT 20, 'Luisa', '2222', 0 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=20);
-
-
--- 2B) Crear FK sólo si no existen (ejecutable varias veces)
--- 1) departamentos_ibfk_1
 SET @schema = DATABASE();
+
+-- FK: departamentos_ibfk_1
 SELECT COUNT(*) INTO @cnt FROM information_schema.TABLE_CONSTRAINTS
- WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'departamentos' AND CONSTRAINT_NAME = 'departamentos_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
+WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'departamentos' AND CONSTRAINT_NAME = 'departamentos_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
 
 SET @sql = IF(@cnt = 0,
   'ALTER TABLE `departamentos` ADD CONSTRAINT `departamentos_ibfk_1` FOREIGN KEY (`Jefe`) REFERENCES `empleados`(`CodEmple`) ON DELETE SET NULL ON UPDATE CASCADE',
@@ -107,9 +83,9 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- 2) empleados_ibfk_1
+-- FK: empleados_ibfk_1
 SELECT COUNT(*) INTO @cnt FROM information_schema.TABLE_CONSTRAINTS
- WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'empleados' AND CONSTRAINT_NAME = 'empleados_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
+WHERE CONSTRAINT_SCHEMA = @schema AND TABLE_NAME = 'empleados' AND CONSTRAINT_NAME = 'empleados_ibfk_1' AND CONSTRAINT_TYPE='FOREIGN KEY';
 
 SET @sql = IF(@cnt = 0,
   'ALTER TABLE `empleados` ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`Departamento`) REFERENCES `departamentos`(`CodDept`) ON DELETE CASCADE ON UPDATE CASCADE',
@@ -118,3 +94,9 @@ SET @sql = IF(@cnt = 0,
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
+-- --------------------------------------------------------
+-- Actualizar jefe de departamentos solo si es NULL
+-- --------------------------------------------------------
+UPDATE `departamentos` SET `Jefe`=1 WHERE `CodDept`=3 AND (`Jefe` IS NULL OR `Jefe`<>1);
+UPDATE `departamentos` SET `Jefe`=4 WHERE `CodDept`=4 AND (`Jefe` IS NULL OR `Jefe`<>4);

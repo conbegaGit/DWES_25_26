@@ -17,7 +17,7 @@ if (!isset($_SESSION)) {
 
 <body>
     <header class="site-header">
-        <div clsas="wrap">
+        <div class="wrap">
             <h1 class="logo"><a href="/AppEmpresa/dashboard.php">Empresa</a></h1>
             <nav class="main-nav">
                 <a href="/AppEmpresa/dashboard.php">Inicio</a>
@@ -33,6 +33,8 @@ if (!isset($_SESSION)) {
         </div>
     </header>
     <main class="wrap">
-</body>
-
-</html>
+        <?php if ($msg = flash_get()): ?>
+            <div class="flash">
+                <?= e($msg) ?>
+            </div>
+        <?php endif; ?>
