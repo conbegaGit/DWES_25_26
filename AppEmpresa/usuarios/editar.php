@@ -1,7 +1,10 @@
 <?php
 session_start();
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+require_login();
+require_admin();
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -11,8 +14,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     // flash_set("Usuario no encontrado");
-    header("Location: listar.php");
-    exit();
+    redirect("listar.php");
 }
 
 $codigo = $user['Codigo'];
@@ -26,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clave = trim($_POST['Clave'] ?? '');
     $rol = intval($_POST['Rol']);
 
-    if ($nombre && $clave && isset($_POST['rol'])) {
+    if ($nombre && $clave) {
+        $hashClave = password_hash($clave, PASSWORD_DEFAULT);
         $stmt = $bd->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?");
-        $stmt->execute([$nombre, $clave, $rol, $codigo]);
-        // flash_set("Usuario actualizado");
-        header("Location: listar.php");
-        exit;
+        $stmt->execute([$nombre, $hashClave, $rol, $codigo]);
+        flash_set("Usuario actualizado");
+        redirect("listar.php");
     }
 }
 ?>
@@ -54,9 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </label>
 
 <label>
-    rol<br>
-    <select name="rol" required>
-        <option value="">-- Seleccions rol --</option>
+    Rol<br>
+    <select name="Rol" required>
+        <option value="">-- Selecciona rol --</option>
         <option value="1" <?= $rol === 1 ? 'selected' : '' ?>>Admin</option>
         <option value="0" <?= $rol === 0 ? 'selected' : '' ?>>User</option>
     </select>

@@ -16,3 +16,8 @@ function flash_get(){
     }
     return null;
 }
+
+function redirect(string $url): void {
+    header("Location: " . $url);
+    exit;
+}

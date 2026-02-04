@@ -21,10 +21,9 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="/AppEmpresa/departamentos/listar.php">Departamentos</a>
             <a href="/AppEmpresa/empleados/listar.php">Empleados</a>
 
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if ($_SESSION["user"]["Rol"] == 1): ?>
                 <a href="/AppEmpresa/usuarios/listar.php">Usuarios</a>
             <?php endif; ?>
-
             <?php if (isset($_SESSION['user'])): ?>
                 <a href="/AppEmpresa/logout.php"> Salir (<?= htmlspecialchars($_SESSION['user']['Nombre']) ?>)
                 </a>

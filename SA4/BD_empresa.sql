@@ -116,3 +116,8 @@ SET @sql = IF(@cnt = 0,
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
+-- Modificacion de clave de usuarios
+-- --------------------------------------------------------
+
+ALTER TABLE `usuarios` MODIFY `Clave` VARCHAR(255) NOT NULL;
