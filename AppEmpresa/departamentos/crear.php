@@ -1,8 +1,10 @@
 <?php
 session_start();
-//require_once "includes/auth.php";
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+
+require_admin();
 
 $nombre=$ciudad='';
 $presupuesto=0;
@@ -14,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST'){
     $stmt = $db-> prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
     $stmt-> execute([$nombre, $ciudad, $presupuesto]);
     flash_set("Departamento creado");
-    header ("Location:listar.php");
+   redirect(" listar.php");
     exit;
 }
 require_once "../includes/header.php";

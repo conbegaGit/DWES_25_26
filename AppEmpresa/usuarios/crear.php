@@ -1,9 +1,10 @@
 <?php
 session_start();
-//require_once "includes/auth.php";
+require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
+require_admin();
 $Nombre=$Clave='';
 $Rol=0;
 
@@ -16,7 +17,7 @@ $hash= password_hash($Clave,PASSWORD_DEFAULT );
    $stmt = $db-> prepare("INSERT INTO usuarios(Nombre, Clave, Rol) VALUES (?, ?, ?)");
     $stmt-> execute([$Nombre, $hash, $Rol ]);
  flash_set("Usuario creado");
-    header ("Location:listar.php");
+    redirect(" listar.php");
     exit;
 }
 

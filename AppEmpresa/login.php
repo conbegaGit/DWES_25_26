@@ -1,8 +1,10 @@
 <?php
 
 session_start();
+require_once "includes/auth.php";
+require_once "includes/db.php"; 
 require_once 'includes/functions.php';
-require_once "includes/db.php"; // O include_once
+// O include_once
 
 
 $error="";
@@ -27,13 +29,13 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
             exit;
         }else{
             $error = "Usuario o clave incorrectos.";
-            header("Location:index.php");
+            header("Location: index.php");
         }
 
 
     }else{
         $error="Usuario o clave incorrectos.";
-        header("Location:index.php");
+       redirect("/index.php");
     }
 }
 
