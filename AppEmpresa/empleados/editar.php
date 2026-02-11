@@ -5,6 +5,7 @@ require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
 verificarLogueado(); // cualquier usuario logueado
+verificarAdmin();
 
 require_once "../includes/header.php";
 
@@ -26,7 +27,7 @@ if (!$empleado) {
 $stmt_dept = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre");
 $departamentos = $stmt_dept->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['nombre'] ?? '');
     $apellido1 = trim($_POST['apellido1'] ?? '');
     $apellido2 = trim($_POST['apellido2'] ?? '');

@@ -5,10 +5,12 @@ require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
 verificarLogueado(); // cualquier usuario logueado
+verificarAdmin();
+
 
 $nombre = $ciudad = '';
 $presupuesto = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['nombre']);
     $ciudad = trim($_POST['ciudad']);
     $presupuesto = intval($_POST['presupuesto']);

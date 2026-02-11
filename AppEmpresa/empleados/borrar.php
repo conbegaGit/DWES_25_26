@@ -5,6 +5,7 @@ require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
 verificarLogueado(); // cualquier usuario logueado
+verificarAdmin();
 
 $id = $_GET['id'] ?? null;
 

@@ -4,7 +4,6 @@ require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
 verificarLogueado(); // cualquier usuario logueado
-
 verificarAdmin();
 
 $id = $_GET['id'] ?? null;
@@ -20,7 +19,7 @@ if (!$usuario) {
     redirect('listar.php', 'Usuario no encontrado.', 'error');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['nombre']);
     $clave = trim($_POST['clave']);
     $rol = intval($_POST['rol']);

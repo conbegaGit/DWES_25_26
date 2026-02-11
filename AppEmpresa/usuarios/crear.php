@@ -4,14 +4,13 @@ require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
 verificarLogueado(); // cualquier usuario logueado
-
 verificarAdmin();
 
 $nombre = '';
 $clave = '';
 $rol = 0;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['nombre']);
     $clave = trim($_POST['clave']);
     $rol = intval($_POST['rol']);

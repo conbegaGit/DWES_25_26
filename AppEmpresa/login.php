@@ -14,13 +14,11 @@ if (isset($_SESSION['user'])) {
 
 require_once "includes/db.php"; // conexion a la BBDD
 require_once "includes/functions.php";
-require_once "../includes/auth.php";
-
-verificarLogueado(); // cualquier usuario logueado
+require_once "includes/auth.php";
 
 $error = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     try {
         $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
