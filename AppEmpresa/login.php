@@ -22,19 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             session_regenerate_id(true);
             $_SESSION['user'] = $user;
-
             flash_set("Bienvenido, " . $_SESSION['user']['Nombre'] . "!");
             redirect("dashboard.php");
-
         } else {
             flash_set("Nombre de usuario o clave incorrectos.");
             redirect("index.php");
-        
         }
-
     } else {
         flash_set("Nombre de usuario o clave incorrectos.");
         redirect("index.php");
-
     }
 }

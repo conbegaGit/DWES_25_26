@@ -4,7 +4,6 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_login();
-require_admin();
 
 $nombre = $Apellido1 = $Apellido2 = '';
 $departamento_id = ''; // Nueva variable para el ID numérico
@@ -12,7 +11,7 @@ $departamento_id = ''; // Nueva variable para el ID numérico
 // Cargamos los departamentos para el select
 $depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre']);
     $Apellido1 = trim($_POST['Apellido1']);
     $Apellido2 = trim($_POST['Apellido2']);
@@ -20,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // IMPORTANTE: El orden de las columnas debe coincidir exactamente con los valores
     $stmt = $bd->prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (?, ?, ?, ?)");
-    
+
     // Aquí pasamos los 4 valores en el orden correcto
     $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento_id]);
-    
+
     flash_set("Empleado creado");
     redirect("listar.php");
 }
@@ -35,7 +34,7 @@ require_once("../includes/header.php");
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($nombre) ?>" required></label>
     <label>Apellido 1<br><input type="text" name="Apellido1" value="<?= e($Apellido1) ?>" required></label>
     <label>Apellido 2<br><input type="text" name="Apellido2" value="<?= e($Apellido2) ?>" required></label>
-    
+
     <label>Departamento<br>
         <select name="Departamento" required>
             <option value="">Seleccione un departamento</option>
@@ -48,7 +47,7 @@ require_once("../includes/header.php");
     </label>
 
     <div class="actions">
-        <button type="submit">Crear</button> 
+        <button type="submit">Crear</button>
         <a class="btn" href="listar.php">Cancelar</a>
     </div>
 </form>

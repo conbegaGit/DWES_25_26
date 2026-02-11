@@ -4,7 +4,7 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_login();
-require_admin();
+
 $nombre = $ciudad = '';
 $presupuesto = 0;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
