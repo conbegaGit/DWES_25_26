@@ -25,3 +25,7 @@ function redirect($url): void {
     header("Location: $url");
     exit();
 }
+
+function is_Post(): bool {
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+}

@@ -5,7 +5,7 @@ require_once '../AppEmpresa/includes/functions.php';
 
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_Post()) {
 
     $nombre = trim($_POST['nombre'] ?? '');
     $clave  = trim($_POST['clave'] ?? '');

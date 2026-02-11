@@ -10,7 +10,7 @@ requiere_admin();
 
 $nombre = $ciudad = '';
 $presupuesto = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_Post()){
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval($_POST['Presupuesto']);
