@@ -3,6 +3,7 @@
     require_once "includes/db.php";
     require_once "includes/functions.php";
 
+
     $error = "";
 
     if ($_SERVER["REQUEST_METHOD"] === "POST")
@@ -12,11 +13,11 @@
 
         if (!empty($nombre) && !empty($clave))
         {
-            $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ? AND Clave = ?");
-            $stmt->execute([$nombre, $clave]);
+            $stmt = $bd->prepare("SELECT * FROM usuarios WHERE Nombre = ?");
+            $stmt->execute([$nombre]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user)
+            if ($user && password_verify($clave, $user["Clave"]))
             {
                 session_regenerate_id(true);
                 $_SESSION["user"] = $user;

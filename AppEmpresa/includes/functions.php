@@ -21,3 +21,12 @@
     function is_admin(){
         return isset($_SESSION['user']) && intval($_SESSION['user']['Rol']) === 1;
     }
+
+    function redirect($url){
+        header("Location: " . $url);
+        exit;
+    }
+
+    function is_POST(): bool{
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
+    }

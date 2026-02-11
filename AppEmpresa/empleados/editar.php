@@ -1,8 +1,10 @@
 <?php
     session_start();
-    //require_once "../includes/auth.php";
+    require_once "../includes/auth.php";
     require_once "../includes/db.php";
     require_once "../includes/functions.php";
+    require_login();
+    require_admin();
 
     $id = intval($_GET['id'] ?? '');
     $stmt = $bd->prepare("SELECT * FROM empleados WHERE CodEmple = ?");
@@ -14,7 +16,7 @@
         exit();
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(is_POST()) {
         $nombre = trim($_POST['Nombre']);
         $apellido1 = trim($_POST['Apellido1']);
         $apellido2 = trim($_POST['Apellido2']);

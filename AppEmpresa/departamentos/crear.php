@@ -1,13 +1,16 @@
 <?php
     session_start();
-    //require_once "../includes/auth.php";
+    require_once "../includes/auth.php";
     require_once "../includes/db.php";
     require_once "../includes/functions.php";
+
+    require_login();
+    require_admin();
 
     $nombre = $ciudad = '';
     $presupuestos = 0;
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(is_POST()) {
         $nombre = trim($_POST['Nombre']);
         $ciudad = trim($_POST['ciudad']);
         $presupuestos = trim($_POST['presupuesto']);

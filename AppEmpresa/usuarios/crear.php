@@ -3,15 +3,23 @@ session_start();
 require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+
+require_admin();
+require_login();
+
 $nombre = $codigo = $clabe = $rol = "";
 $presupuesto = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_POST()){
     $codigo = trim($_POST['Codigo']);
     $nombre = trim($_POST['Nombre']);
     $clabe = trim($_POST['Clave']);
     $rol = trim($_POST['Rol']);
+
+    $clabeHash = password_hash($clabe, PASSWORD_DEFAULT);
+
     $stmt = $bd->prepare("INSERT INTO usuarios (Codigo, Nombre, Clave, Rol) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$codigo, $nombre, $clabe, $rol]);
+    $stmt->execute([$codigo, $nombre, $clabeHash, $rol]);
+    
     flash_set("Usuario creado");
     header("Location: listar.php");
     exit;

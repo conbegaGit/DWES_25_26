@@ -1,12 +1,11 @@
 <?php
     session_start();
-    if(!isset($_SESSION['user'])) {
-        header("Location: login.php");
-        exit();
-    }
+    require_once "../includes/auth.php";
     require_once "../includes/db.php";
     require_once "../includes/functions.php";
-    
+
+    require_login();
+    require_admin();
 
     $stm = $bd->query("SELECT * FROM usuarios ORDER BY Codigo");
     $rows = $stm->fetchAll(PDO::FETCH_ASSOC);

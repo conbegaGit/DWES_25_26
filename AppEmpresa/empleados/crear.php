@@ -4,6 +4,9 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
+require_admin();
+require_login();
+
 $nombre = '';
 $Apellido1 = '';
 $Apellido2 = '';
@@ -11,7 +14,7 @@ $Departamento = '';
 
 $deps = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_POST()){
     $nombre = trim($_POST['Nombre']);
     $Apellido1 = trim($_POST['Apellido1']);
     $Apellido2 = trim($_POST['Apellido2']);
