@@ -63,7 +63,7 @@ require_once "../includes/header.php";
 <?php endif; ?>
 <form method="post">
     <label>Nombre de usuario<br><input type="text" name="Nombre" value="<?= e($usuario['Nombre']) ?>" required></label>
-    <label>Clave<br><input type="password" name="Clave" value="<?= e($usuario['Clave']) ?>" required></label>
+    <label>Clave<br><input type="password" name="Clave" value="********" required></label>
     <label>Rol<br>
         <select name="Rol" required>
             <option value="0" <?= $usuario['Rol'] == 0 ? 'selected' : '' ?>>Usuario</option>
