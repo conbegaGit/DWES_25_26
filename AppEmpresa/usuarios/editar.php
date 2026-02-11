@@ -19,7 +19,7 @@ $roles = [
 
 $errores = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
 
     $nombre = trim($_POST['Nombre'] ?? '');
     $clave  = trim($_POST['Clave'] ?? '');

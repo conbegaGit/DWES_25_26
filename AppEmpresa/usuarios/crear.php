@@ -6,7 +6,7 @@ require_once __DIR__ . "/../includes/functions.php";
 require_admin();
 $nombre = $clave = '';
 $rol = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
     $hash = password_hash(password: $clave, algo: PASSWORD_DEFAULT);
