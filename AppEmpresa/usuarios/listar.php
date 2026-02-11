@@ -3,8 +3,8 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/auth.php";
 
-verificarLogueado(); // cualquier usuario logueado
-verificarAdmin(); // verificar que el usuario sea admin
+requireLogin(); // cualquier usuario logueado
+requireAdmin(); // verificar que el usuario sea admin
 
 require_once "../includes/header.php";
 
@@ -18,6 +18,7 @@ $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Clave</th>
             <th>Rol</th>
             <th>Acciones</th>
         </tr>
@@ -27,6 +28,7 @@ $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <td><?= e($r['Codigo']) ?></td>
                 <td><?= e($r['Nombre']) ?></td>
+                <td>********</td>
                 <td><?= $r['Rol'] == 1 ? 'Administrador' : 'Usuario' ?></td>
                 <td>
                     <a href="editar.php?id=<?= $r['Codigo'] ?>">Editar</a>

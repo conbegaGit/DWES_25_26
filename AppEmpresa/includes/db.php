@@ -10,3 +10,4 @@ try {
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
+$bd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);

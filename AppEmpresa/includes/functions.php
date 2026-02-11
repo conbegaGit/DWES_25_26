@@ -38,13 +38,13 @@ function redirect($url, $msg = null, $tipo = 'success')
 }
 
 // Comprueba si el usuario está logueado
-function estaLogueado()
+function isLoggedIn()
 {
     return isset($_SESSION['user']);
 }
 
 // Comprueba rol admin
-function esAdmin()
+function isAdmin()
 {
     return isset($_SESSION['user'])
         && intval($_SESSION['user']['Rol']) === 1;

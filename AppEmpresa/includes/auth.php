@@ -1,17 +1,17 @@
 <?php
 // Funcion que requiere al usuario iniciar sesion, sino te dirige al login
-function verificarLogueado()
+function requireLogin()
 {
-    if (!estaLogueado()) {
+    if (!isLoggedIn()) {
         redirect('/AppEmpresa/login.php', "Debes iniciar sesión para acceder.");
     }
 }
 
 // Funcion que requiere al admin iniciar sesion, sino te dirige al index
-function verificarAdmin()
+function requireAdmin()
 {
-    verificarLogueado();
-    if (!esAdmin()) {
+    requireLogin();
+    if (!isAdmin()) {
         redirect('/AppEmpresa/index.php', "Acceso denegado.");
     }
 }
