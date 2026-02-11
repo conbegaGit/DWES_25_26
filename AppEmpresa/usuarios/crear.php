@@ -12,7 +12,7 @@ require_once "../includes/header.php";
 
 $nombre = $clave = $rol = "";
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
     $hash = password_hash($clave, PASSWORD_DEFAULT);

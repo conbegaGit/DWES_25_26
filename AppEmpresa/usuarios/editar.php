@@ -20,7 +20,7 @@ if(!$dept){
 $emps = $db->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre")
 ->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $nombre = trim($_POST['Nombre']);
     $rol = trim($_POST['Rol']);
     //if(!empty($_POST['Clave'])){

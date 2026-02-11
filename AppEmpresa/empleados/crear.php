@@ -7,12 +7,12 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_once "../includes/header.php";
 
-require_admin();
+require_login();
 
 $nombre = $apellido1 = $apellido2 = "";
 $departamento = '';
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);

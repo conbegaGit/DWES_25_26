@@ -6,7 +6,7 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+require_login();
 
 $id = intval($_GET['id'] ?? 0);
 $stmt = $db->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
@@ -18,7 +18,7 @@ if(!$dept){
     exit;
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = trim($_POST['Presupuesto']);
