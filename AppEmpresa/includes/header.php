@@ -17,8 +17,8 @@
                 <a href="/AppEmpresa/departamentos/listar.php">Departamentos</a>
                 <a href="/AppEmpresa/empleados/listar.php">Empleados</a>
                 <a href="/AppEmpresa/usuarios/listar.php">Usuarios</a>
-                <?php if (isset($_SESSION['user']['Rol']) && $_SESSION['user']['Rol'] == 1): ?>
-                    <a href="logout" href="/AppEmpresa/logout.php">Salir (<?= e($_SESSION['user']['Nombre']) ?>)</a>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <a href="/AppEmpresa/logout.php">Salir (<?= e($_SESSION['user']['Nombre']) ?>)</a>
                 <?php endif; ?>
             </nav>
         </div>

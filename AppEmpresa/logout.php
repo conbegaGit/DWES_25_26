@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once "includes/functions.php";
+
 // Destruir todas las variables de sesión.
 $_SESSION = array();
 
@@ -20,5 +22,10 @@ if (ini_get("session.use_cookies")) {
 
 // Finalmente, destruir la sesión.
 session_destroy();
-header("Location: index.php");
+
+// Reiniciar sesión para el mensaje flash
+session_start();
+flash_set("Sesión cerrada correctamente.", "success");
+
+header("Location: login.php");
 exit;

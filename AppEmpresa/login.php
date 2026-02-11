@@ -67,6 +67,15 @@ if (is_post()) {
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
 
+        <?php
+        $flash = flash_get();
+        if ($flash):
+            ?>
+            <div class="flash <?= e($flash['tipo']) ?>">
+                <?= e($flash['mensaje']) ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($error)): ?>
             <div class="flash error">
                 <?= htmlspecialchars($error) ?>
