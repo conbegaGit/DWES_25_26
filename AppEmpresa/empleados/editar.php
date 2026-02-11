@@ -18,7 +18,7 @@ if (!$emp) {
 $stmt = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre");
 $dept = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_pot()) {
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);
@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      -> execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
     flash_set("Empleado actualizado.");
     header("Location: listar.php");
+
+    //functionredirect("listar.php");
     exit;
 }
 require_once "../includes/header.php";

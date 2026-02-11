@@ -18,7 +18,7 @@ if (!$emp) {
 $stmt = $bd->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre");
 $dept = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_pot()) {
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
 
@@ -40,7 +40,7 @@ require_once "../includes/header.php";
 <h2>Editar Usuario</h2>
 <form method="post">
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($emp['Nombre']) ?>" required></label>
-    <label>Clave<br><input type="text" name="Clave"  value="<?= e($emp['Clave']) ?>" required></label>
+    <label>Clave<br><input type="text" name="Clave"  value="********" required></label>
     <label>Rol<br><input type="text" name="Rol"  value="<?= e($emp['Rol']) ?>" required></label>
 
     <div class="actions"><button type="submit">Guardar</button><a class="btn" href="listar.php">Cancelar</a></div>

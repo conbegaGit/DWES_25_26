@@ -6,8 +6,8 @@ require_once "../includes/functions.php";
 
 $nombre = $clave =  $rol ="";
 $codigo = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$codigo = intval ( $_POST['Codigo']);
+if (is_pot()) {
+    $codigo = intval ( $_POST['Codigo']);
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
     $Clavehash = password_hash($clave, PASSWORD_DEFAULT);

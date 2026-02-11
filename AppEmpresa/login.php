@@ -8,7 +8,7 @@ $error = '';
 
 // Comprobar si se envió el formulario
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_pot()) {
     $nombre = trim($_POST['nombre']);
     $clave = trim($_POST['clave']);
 

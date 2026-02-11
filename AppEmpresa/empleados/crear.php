@@ -8,7 +8,7 @@ $nombre = $apellido1 =  $apellido2 ="";
 $departamento = 0;
 
 $dept = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre") ->fetchAll();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_pot()) {    
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);
