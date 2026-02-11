@@ -20,7 +20,7 @@ $departamentos = $stmt_depts->fetchAll(PDO::FETCH_ASSOC);
 
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);

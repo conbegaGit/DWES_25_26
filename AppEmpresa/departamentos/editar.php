@@ -18,7 +18,7 @@ if (!$dept) {
 // Obtener lista de empleados para el selector de Jefe
 $emps = $bd->query("SELECT CodEmple, Nombre, Apellido1 FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval ( $_POST['Presupuesto']);

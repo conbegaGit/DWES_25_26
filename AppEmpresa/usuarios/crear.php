@@ -16,7 +16,7 @@ $clave = "";
 $rol = 0;
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);
     $rol = intval($_POST['Rol']);

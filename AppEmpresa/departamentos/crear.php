@@ -9,7 +9,7 @@ $nombre = $ciudad = " ";
 $presupuesto = 0;
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval ( $_POST['Presupuesto']);
