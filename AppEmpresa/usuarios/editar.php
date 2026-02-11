@@ -1,75 +1,87 @@
 <?php
 session_start();
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
 
-if (!esAdmin()) {
-    redirigir('../dashboard.php', 'Acceso denegado.', 'error');
-}
+require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+require_once __DIR__ . "/../includes/header.php";
+require_admin();
 
-$id = $_GET['id'] ?? null;
-if (!$id) {
-    redirigir('listar.php', 'ID de usuario no especificado.', 'error');
-}
+// Valores por defecto
+$nombre = '';
+$rol = 2;
 
-$stmt = $bd->prepare("SELECT * FROM usuarios WHERE Codigo = :id");
-$stmt->execute([':id' => $id]);
-$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+// Roles disponibles
+$roles = [
+    1 => 'admin',
+    2 => 'usuario'
+];
 
-if (!$usuario) {
-    redirigir('listar.php', 'Usuario no encontrado.', 'error');
-}
+$errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre']);
-    $clave = trim($_POST['clave']);
-    $rol = intval($_POST['rol']);
 
-    if ($nombre) {
-        if ($clave) {
-            $sql = "UPDATE usuarios SET Nombre = :nombre, Clave = :clave, Rol = :rol WHERE Codigo = :id";
-            $params = [
-                ':nombre' => $nombre,
-                ':clave' => $clave,
-                ':rol' => $rol,
-                ':id' => $id
-            ];
-        } else {
-            $sql = "UPDATE usuarios SET Nombre = :nombre, Rol = :rol WHERE Codigo = :id";
-            $params = [
-                ':nombre' => $nombre,
-                ':rol' => $rol,
-                ':id' => $id
-            ];
-        }
+    $nombre = trim($_POST['Nombre'] ?? '');
+    $clave  = trim($_POST['Clave'] ?? '');
+    $rol    = (int) ($_POST['Rol'] ?? 2);
 
-        try {
-            $stmt = $bd->prepare($sql);
-            $stmt->execute($params);
-            redirigir('listar.php', 'Usuario actualizado correctamente.');
-        } catch (PDOException $ex) {
-            flash_set('Error al actualizar usuario: ' . e($ex->getMessage()), 'error');
-        }
-    } else {
-        flash_set('El nombre es obligatorio.', 'error');
+    if ($nombre === '') $errores[] = "El nombre es obligatorio";
+    if ($clave === '') $errores[] = "La clave es obligatoria";
+    if (!array_key_exists($rol, $roles)) $errores[] = "Rol no válido";
+
+    if (empty($errores)) {
+
+        $hash = password_hash($clave, PASSWORD_DEFAULT);
+
+        $stmt = $bd->prepare(
+            "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)"
+        );
+        $stmt->execute([$nombre, $hash, $rol]);
+
+        flash_set("Usuario creado correctamente");
+        header("Location: listar.php");
+        exit;
     }
 }
-
-require_once "../includes/header.php";
 ?>
-<h2>Editar Usuario</h2>
+
+<h2>Nuevo usuario</h2>
+
+<?php if (!empty($errores)): ?>
+    <ul class="errores">
+        <?php foreach ($errores as $e): ?>
+            <li><?= e($e) ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
 <form method="post">
-    <label>Nombre: <input type="text" name="nombre" value="<?= e($usuario['Nombre']) ?>" required></label>
-    <label>Contraseña: <input type="password" name="clave" placeholder="(Dejar en blanco para no cambiar)"></label>
-    <label>Rol:
-        <select name="rol">
-            <option value="0" <?= $usuario['Rol'] == 0 ? 'selected' : '' ?>>Usuario</option>
-            <option value="1" <?= $usuario['Rol'] == 1 ? 'selected' : '' ?>>Administrador</option>
+    <label>
+        Nombre<br>
+        <input type="text" name="Nombre" value="<?= e($nombre) ?>" required>
+    </label>
+    <br><br>
+
+    <label>
+        Clave<br>
+        <input type="password" name="Clave" required>
+    </label>
+    <br><br>
+
+    <label>
+        Rol<br>
+        <select name="Rol">
+            <?php foreach ($roles as $k => $v): ?>
+                <option value="<?= $k ?>" <?= $rol == $k ? 'selected' : '' ?>>
+                    <?= e($v) ?>
+                </option>
+            <?php endforeach; ?>
         </select>
     </label>
-    <div class="actions">
-        <button type="submit">Guardar Cambios</button>
-        <a class="bin" href="listar.php">Cancelar</a>
-    </div>
+    <br><br>
+
+    <button type="submit">Crear usuario</button>
+    <a class="btn" href="listar.php">Cancelar</a>
 </form>
-<?php require_once "../includes/footer.php"; ?>
+
+<?php require_once __DIR__ . "/../includes/footer.php"; ?>
