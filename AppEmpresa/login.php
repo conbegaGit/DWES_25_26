@@ -5,7 +5,7 @@ require_once 'includes/functions.php';
 
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
 
     $nombre = trim($_POST['usuario'] ?? '');
     $clave  = trim($_POST['clave'] ?? '');

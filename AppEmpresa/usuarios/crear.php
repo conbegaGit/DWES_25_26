@@ -8,7 +8,7 @@ require_admin();
 
 $nombre = $codigo = $clave = $rol = "";
 $presupuesto = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_post()){
     $codigo = trim($_POST['Codigo']);
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);

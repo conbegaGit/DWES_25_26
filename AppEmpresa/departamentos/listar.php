@@ -4,7 +4,6 @@ require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_login();
-require_admin();
 require_once __DIR__ . "/../includes/header.php";
 
 $stm = $bd->query("SELECT d.*, e.Nombre AS JefeNombre FROM departamentos d LEFT JOIN empleados e ON d.Jefe = e.CodEmple ORDER BY d.CodDept");

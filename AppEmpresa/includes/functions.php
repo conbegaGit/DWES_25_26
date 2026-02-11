@@ -18,6 +18,14 @@ function flash_get(){
 }
 
 function redirect(string $url): void {
+    // Si no empieza con /, agregar la ruta base
+    if (strpos($url, '/') !== 0 && strpos($url, 'http') !== 0) {
+        $url = '/AppEmpresa/' . $url;
+    }
     header("Location: " . $url);
     exit;
+}
+
+function is_post(): bool {
+    return $_SERVER ['REQUEST_METHOD'] === 'POST';
 }

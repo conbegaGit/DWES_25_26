@@ -4,7 +4,7 @@ require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_login();
-require_admin();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -24,7 +24,7 @@ $departamento = $emp['Departamento'];
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 $depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre") ->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $Apellido1 = trim($_POST['Apellido1'] ?? '');
     $Apellido2 = trim($_POST['Apellido2'] ?? '');
