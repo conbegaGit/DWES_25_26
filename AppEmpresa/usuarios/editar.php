@@ -21,7 +21,7 @@ $nombre = $user['Nombre'];
 $clave = $user['Clave'];
 $rol = $user['Rol'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $codigo = trim($_POST['Codigo'] ?? '');
     $nombre = trim($_POST['Nombre'] ?? '');
     $clave = trim($_POST['Clave'] ?? '');

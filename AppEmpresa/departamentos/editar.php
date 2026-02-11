@@ -10,20 +10,17 @@ $id = intval($_GET['id'] ?? 0);
 $stmt = $bd->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
 $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
-
 if (!$dept) {
     // flash_set("Departamento no encontrado");
     redirect("listar.php");
 }
-
 $nombre = $dept['Nombre'];
 $ciudad = $dept['Ciudad'];
 $presupuesto = $dept['Presupuesto'];
 $jefe = $dept['Jefe'];
 
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
-echo "antes del if";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $ciudad = trim($_POST['Ciudad'] ?? '');
     $presupuesto = intval($_POST['Presupuesto'] ?? 0);
@@ -32,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nombre && $ciudad && $presupuesto > 0) {
         $stmt = $bd->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?");
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
-
         flash_set("Departamento actualizado");
         redirect("listar.php");
     }

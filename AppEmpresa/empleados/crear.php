@@ -6,21 +6,18 @@ require_once "../includes/functions.php";
 require_login();
 
 $nombre = $Apellido1 = $Apellido2 = '';
-$departamento_id = ''; // Nueva variable para el ID numérico
+$departamento_id = '';
 
-// Cargamos los departamentos para el select
 $depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre']);
     $Apellido1 = trim($_POST['Apellido1']);
     $Apellido2 = trim($_POST['Apellido2']);
-    $departamento_id = $_POST['Departamento']; // Recoge el CodDept (número)
+    $departamento_id = $_POST['Departamento'];
 
-    // IMPORTANTE: El orden de las columnas debe coincidir exactamente con los valores
     $stmt = $bd->prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (?, ?, ?, ?)");
 
-    // Aquí pasamos los 4 valores en el orden correcto
     $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento_id]);
 
     flash_set("Empleado creado");

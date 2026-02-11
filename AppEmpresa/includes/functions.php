@@ -20,7 +20,7 @@ function flash_get()
 }
 function is_post()
 {
-    return $_SERVER['REQUEST_METHOD'] === ['POST'];
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
 }
 function redirect(string $url): void
 {
