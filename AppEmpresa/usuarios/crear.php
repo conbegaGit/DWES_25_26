@@ -1,14 +1,17 @@
 <?php
 session_start(); //si no esta creada la sesión, la crea, sino la mantiene
-require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+if (!is_admin()) {
+    flash_set('No tienes permisos para acceder a esta página.');
+    header("Location: ../index.php");
+    exit;
+}
 
 $nombre = $clave =  $rol ="";
-$codigo = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if (is_post()) {
 $codigo = intval ( $_POST['Codigo']);
     $nombre = trim($_POST['Nombre']);
     $clave = trim($_POST['Clave']);

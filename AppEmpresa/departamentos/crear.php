@@ -11,8 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval ( $_POST['Presupuesto']);
-    $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?,?,?)");
-    $stmt->execute([$nombre, $ciudad, $presupuesto]);
+    $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
+    $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto, Jefe) VALUES (?,?,?,?)");
+    $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe]);
     flash_set("Departamento creado.");
     header("Location: listar.php"); 
     exit();
@@ -30,7 +31,7 @@ require_once "../includes/header.php";
         <option value="">-- Ninguno --</option>
         <?php foreach ($emps as $em): ?>
             <option value="<?= $em['CodEmple'] ?>" 
-            <?=  $emps == $em ['CodEmple'] ? 'selected' : '' ?>>
+            >
             <?= e($em['Nombre'] .' '. $em['Apellido1'])?>
         </option>
                 <?php endforeach; ?>

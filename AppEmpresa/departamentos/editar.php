@@ -33,7 +33,7 @@ require_once "../includes/header.php";
 <h2>Editar Departamento</h2>
 <form method="post">
     <label>Nombre<br><input type="text" name="Nombre" value="<?= e($dept['Nombre']) ?>" required></label>
-    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($dept['Ciudad']) ?>" required></label>>
+    <label>Ciudad<br><input type="text" name="Ciudad"  value="<?= e($dept['Ciudad']) ?>" required></label>
     <label>Presupuesto<br><input type="number" name="Presupuesto"  value="<?= e($dept['Presupuesto']) ?>" required></label>
     <label>
         Jefe <br>

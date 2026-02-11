@@ -1,16 +1,17 @@
 <?php
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/db.php';
 
-function require_login():void {
+function requiere_login() {
     if (empty($_SESSION['user'])) {
-        flash_set('Debes iniciar sesion');
-        redirect("/AppEmpresa/login.php");
+        redirect('index.php');
     }
 }
 
-function require_admin():void {
-    require_login();
-    if ($_SESSION['user']['Rol'] != 1) {
-        flash_set('No tienes permisos para acceder');
-        redirect("/AppEmpresa/dashboard.php");
+function requiere_admin() {
+    requiere_login();
+    if ( $_SESSION['user']['Rol'] != 1) {
+        flash_set('No tienes permisos para acceder a esta página.');
+        redirect('index.php');
     }
 }

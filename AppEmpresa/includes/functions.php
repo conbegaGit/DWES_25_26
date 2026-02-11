@@ -4,7 +4,7 @@ function e($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
-//redirige con mensaje flash en sesión
+
 function flash_set($msg) {
     if (!isset($_SESSION)) session_start();
     $_SESSION['flash'] = $msg;
@@ -20,7 +20,16 @@ function flash_get() {
     return null;
 }
 
-//comprueba roll de admin
+
 function is_admin () {
     return isset($_SESSION['user']) && intval($_SESSION['user']['Rol']) === 1;
+}
+
+function is_post() {
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+}
+
+function redirect($url) {
+    header("Location: $url");
+    exit;
 }

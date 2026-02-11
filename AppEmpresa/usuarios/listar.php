@@ -1,11 +1,14 @@
 <?php
 
-session_start(); //si no esta creada la sesión, la crea, sino la mantiene
-require_once "../includes/auth.php";
+session_start();
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+if (!is_admin()) {
+    flash_set('No tienes permisos para acceder a esta página.');
+    header("Location: ../index.php");
+    exit;
+}
 
 require_once "../includes/header.php";
 
@@ -21,7 +24,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <td><?= e($r['Codigo']) ?></td>
                 <td><?= e($r['Nombre']) ?></td>
-                <td><?= e($r['Clave'] ?? '-') ?></td>
+                <td>********</td>
                 <td><?= e($r['Rol']) ?></td>
                 <td>
                     <a href="editar.php?id=<?= e($r['Codigo']) ?>">Editar</a>

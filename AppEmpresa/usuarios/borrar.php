@@ -1,10 +1,13 @@
-<?php
+<?php 
 session_start();
-require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+if (!is_admin()) {
+    flash_set('No tienes permisos para acceder a esta página.');
+    header("Location: ../index.php");
+    exit;
+}
 
 $id = intval($_GET['id'] ?? 0);
 if ($id) {
