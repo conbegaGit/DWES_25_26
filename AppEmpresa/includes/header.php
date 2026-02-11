@@ -32,7 +32,7 @@ require_once __DIR__ . '/functions.php';
                 <a href="<?= BASE_PATH ?>dashboard.php">Inicio</a>
                 <a href="<?= BASE_PATH ?>departamentos/listar.php">Departamentos</a>
                 <a href="<?= BASE_PATH ?>empleados/listar.php">Empleados</a>
-                <?php if (isset($_SESSION['user']) && $_SESSION['user'] ['Rol']==1): ?>
+                <?php if (is_admin()): ?>
                     <a href="<?= BASE_PATH ?>usuarios/listar.php">Usuarios</a>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['user'])): ?>

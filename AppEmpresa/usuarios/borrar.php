@@ -5,7 +5,7 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
 // Access control
-if (!isset($_SESSION['user']) || $_SESSION['user']['Rol'] != 1) {
+if (!is_admin()) {
     flash_set("Acceso denegado. Solo administradores.");
     header("Location: " . BASE_PATH . "dashboard.php");
     exit();

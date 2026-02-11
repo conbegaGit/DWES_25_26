@@ -18,11 +18,16 @@
         }
         return null;
     }
-    function is_admin() {
-        return isset($_SESSION['user']) 
-        && intval($_SESSION['user']['Rol']) === 1;
-    }
+function is_admin() {
+    return isset($_SESSION['user']) 
+    && intval($_SESSION['user']['Rol']) === 1;
+}
 
-    function is_post() {
-        return $_SERVER['REQUEST_METHOD'] === 'POST';
-    }
+ function is_post(): bool {
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+ }
+
+function redirect($url): void {
+    header("Location: $url");
+    exit();
+}

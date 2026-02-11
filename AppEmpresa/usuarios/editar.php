@@ -5,7 +5,7 @@ require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
 // Access control
-if (!isset($_SESSION['user']) || $_SESSION['user']['Rol'] != 1) {
+if (!is_admin()) {
     flash_set("Acceso denegado. Solo administradores.");
     header("Location: " . BASE_PATH . "dashboard.php");
     exit();
@@ -33,7 +33,7 @@ if (is_post()) {
     } else {
         try {
             $stmt = $bd->prepare("UPDATE usuarios SET Nombre = ?, Clave = ?, Rol = ? WHERE Codigo = ?");
-            $stmt->execute([$nombre, $clave, $rol, $id]);
+            $stmt->execute([$nombre, password_hash($clave, PASSWORD_BCRYPT), $rol, $id]);
             
             // If the user being edited is the logged-in user, update the session
             if ($_SESSION['user']['Codigo'] == $id) {
