@@ -41,7 +41,7 @@ require_once __DIR__ . "/../includes/header.php";
         <tr>
             <td><?= e($r['Codigo']) ?></td>
             <td><?= e($r['Nombre']) ?></td>
-            <td><?= e($r['Clave']) ?></td>
+            <td>********</td>
             <td><?= e($roles_map[$r['Rol']]) ?></td>
             <td>
                 <a href="editar.php?id=<?= $r['Codigo'] ?>">Editar</a>
