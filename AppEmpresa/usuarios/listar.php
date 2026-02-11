@@ -21,7 +21,7 @@ $rows = $stm -> fetchALL(PDO::FETCH_ASSOC);
         <tr>
             <td><?= e($r['Codigo']) ?></td>
             <td><?= e($r['Nombre']) ?></td>
-            <td><?= e($r['Clave']) ?></td>
+            <td><?= str_repeat('*', strlen($r['Clave'])) ?></td>
             <td><?= e($r['Rol']) ?></td>
             <td>
                 <a href="editar.php?id=<?= $r['Codigo'] ?>">Editar</a>

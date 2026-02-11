@@ -54,7 +54,7 @@ if (is_Post()) {
 
     <label>
         Clave<br>
-        <input type="text" name="Clave" value="<?= e($clave) ?>" required>
+        <input type="password" name="Clave" value="<?= e($clave) ?>" required>
     </label>
 
 <label>
