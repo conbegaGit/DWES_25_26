@@ -4,7 +4,7 @@
     require_once "../includes/functions.php";
     //require_once "../includes/auth.php";
        
-    require_admin();
+    //require_admin();
 
     $id = intval($_GET['id'] ?? 0);
     if($id){

@@ -2,7 +2,7 @@
     function require_login(): void{
         if (empty($_SESSION["user"])) {
             flash_set("Debes iniciar sesión");
-            redirect("/login.php");
+            redirect("../login.php");
         }
     }
 
@@ -10,6 +10,6 @@
         require_login();
         if ($_SESSION["user"]["Rol"] != 1) {
             flash_set("No tienes permisos para acceder a esta página.");
-            redirect("/index.php");
+            redirect("../index.php");
         }
     }
