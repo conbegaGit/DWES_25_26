@@ -1,9 +1,13 @@
 <?php
 
 session_start();
-require_once "../AppEmpresa/includes/auth.php";
-require_once "../AppEmpresa/includes/db.php";
-require_once "../AppEmpresa/includes/functions.php";
+require_once __DIR__ . "/includes/auth.php";
+require_once __DIR__ . "/includes/db.php";
+require_once __DIR__ . "/includes/functions.php";
+
+requiere_login();
+
+
 require_once "../AppEmpresa/includes/header.php";
 
 

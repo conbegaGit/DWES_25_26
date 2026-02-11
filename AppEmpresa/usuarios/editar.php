@@ -1,7 +1,12 @@
 <?php
 session_start();
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+
+requiere_login();
+requiere_admin();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -11,8 +16,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     flash_set("Usuario no encontrado");
-    header("Location: listar.php");
-    exit();
+    redirect('listar.php');
 }
 
 $codigo = $user['Codigo'];
@@ -31,8 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?");
         $stmt->execute([$nombre, $hashclave, $rol, $codigo]);
         flash_set("Usuario actualizado");
-        header("Location: listar.php");
-        exit;
+        redirect('listar.php');
     }
 }
 ?>

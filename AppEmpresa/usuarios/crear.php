@@ -1,8 +1,12 @@
 <?php
 session_start();
-require_once "../includes/auth.php";
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
+require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+
+requiere_login();
+requiere_admin();
+
 $nombre = $codigo = $clave = $rol = "";
 $presupuesto = 0;
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -14,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $stmt = $bd->prepare("INSERT INTO usuarios (Codigo, Nombre, Clave, Rol) VALUES (?, ?, ?, ?)");
     $stmt->execute([$codigo, $nombre, $hashclave, $rol]);
     flash_set("Usuario creado");
-    header("Location: listar.php");
-    exit;
+    redirect('listar.php');
 }
 require_once("../includes/header.php");
 ?>

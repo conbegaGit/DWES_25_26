@@ -1,8 +1,11 @@
 <?php
 session_start();
-require_once "../includes/auth.php";
-require_once "../includes/db.php";
-require_once "../includes/functions.php";
+require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/functions.php";
+
+requiere_login();
+requiere_admin();
 
 $nombre = '';
 $Apellido1 = '';
@@ -19,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $stmt = $bd->prepare("INSERT INTO empleados (Nombre, Apellido1, Apellido2, Departamento) VALUES (?, ?, ?, ?)");
     $stmt->execute([$nombre, $Apellido1, $Apellido2, $Departamento]);
     flash_set("Empleado creado");
-    header("Location: listar.php");
-    exit;
+    redirect('listar.php');
 }
 require_once("../includes/header.php");
 ?>

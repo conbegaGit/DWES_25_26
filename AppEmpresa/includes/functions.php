@@ -20,3 +20,8 @@ function flash_get(){
         return $m;
     }
 }
+
+function redirect($url): void {
+    header("Location: $url");
+    exit();
+}

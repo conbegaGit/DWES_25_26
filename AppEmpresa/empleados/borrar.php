@@ -9,5 +9,4 @@
         $bd->prepare("DELETE FROM empleados WHERE CodEmple = ?")->execute([$id]);
         flash_set("Empleado borrado");
     }
-    header("Location: listar.php");
-    exit;
+    redirect('\listar.php');

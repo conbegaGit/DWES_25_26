@@ -9,5 +9,4 @@
         $bd->prepare("DELETE FROM departamentos WHERE CodDept = ?")->execute([$id]);
         flash_set("Departamento borrado");
     }
-    header("Location: listar.php");
-    exit;
+    redirect('\listar.php');

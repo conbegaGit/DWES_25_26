@@ -3,6 +3,9 @@ session_start();
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+
+requiere_login();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $stm = $bd->query("SELECT d.*, e.Nombre AS DepartamentoNombre FROM empleados d LEFT JOIN departamentos e ON d.Departamento = e.CodDept ORDER BY d.CodEmple");

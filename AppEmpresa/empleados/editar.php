@@ -1,7 +1,11 @@
 <?php
 session_start();
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+
+requiere_login();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -11,8 +15,7 @@ $emple = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$emple) {
     flash_set("Empleado no encontrado");
-    header("Location: listar.php");
-    exit();
+    redirect('listar.php');
 }
 
 $nombre = $emple['Nombre'];
@@ -34,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $bd->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?");
         $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento, $id]);
         flash_set("Empleado actualizado");
-        header("Location: listar.php");
-        exit;
+        redirect('listar.php');
     }
 }
 ?>
