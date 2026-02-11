@@ -4,7 +4,7 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+require_login();
 
 $id = intval($_GET['id'] ?? 0);
 $stmt = $db->prepare("SELECT * FROM empleados WHERE CodEmple = ?");
@@ -12,20 +12,20 @@ $stmt->execute([$id]);
 $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$dept){
     flash_set("Departamento no encontrado");
-    redirect(" listar.php");
+    redirect("listar.php");
     exit;
 }
 $emps = $db->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")
 ->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);
     $departamento = trim($_POST['Departamento']);
     $db->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?")->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
     flash_set("Empleado actualizado");
-    redirect(" listar.php");
+    redirect("listar.php");
     exit;
 }
 

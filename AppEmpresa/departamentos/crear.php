@@ -4,12 +4,12 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+require_login();
 
 $nombre=$ciudad='';
 $presupuesto=0;
 
-if ($_SERVER['REQUEST_METHOD']==='POST'){
+if (is_post()){
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval($_POST['Presupuesto']);

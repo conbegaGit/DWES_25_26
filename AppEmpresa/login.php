@@ -1,45 +1,36 @@
 <?php
 
 session_start();
-require_once "includes/auth.php";
-require_once "includes/db.php"; 
-require_once 'includes/functions.php';
-// O include_once
+require_once "includes/functions.php";
+require_once "includes/db.php"; // conexion a la base de datos
 
+$error = "";
 
-$error="";
-
-if($_SERVER["REQUEST_METHOD"]==="POST"){
-    $nombre = trim($_POST["usuario"]);
-    $clave = trim($_POST["password"]);
+//Comprobar si se envio el formulario
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    $nombre = trim($_POST["nombre"]);
+    $clave = trim($_POST["clave"]);
 
     if(!empty($nombre) && !empty($clave)){
         //Preparar y ejecutar la consulta
-        $stmt = $db->prepare ("SELECT * FROM usuarios WHERE Nombre = ?");
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE Nombre = ?");
         $stmt->execute([$nombre]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($user && password_verify($clave, $user['Clave']) ){
+        if($user && password_verify($clave, $user['Clave'])){
             //Login correcto: almacenar en sesión
             session_regenerate_id(true);
-            $_SESSION["user"]=$user;
+            $_SESSION["user"] = $user;
 
-            flash_set("Bienvenida " . $_SESSION['user']['Nombre']);
+            flash_set("Bienvenido " . $_SESSION['user']['Nombre']);
             header("Location: dashboard.php");
             exit;
-        }else{
+        } else{
             $error = "Usuario o clave incorrectos.";
             header("Location: index.php");
         }
-
-
-    }else{
-        $error="Usuario o clave incorrectos.";
-       redirect("/index.php");
+    } else{
+        $error = "Usuario o clave incorrectos.";
+        redirect("index.php");
     }
 }
-
-
-
-
-?>

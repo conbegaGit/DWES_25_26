@@ -4,7 +4,7 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 
-require_admin();
+require_login();
 
 $id = intval($_GET['id'] ?? 0);
 $stmt = $db->prepare("SELECT * FROM usuarios WHERE Codigo = ?");
@@ -18,7 +18,7 @@ if(!$dept){
 $emps = $db->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre")
 ->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(is_post()){
     $Nombre = trim($_POST['Nombre']);
     $Clave = trim($_POST['Clave']);
     $hash= password_hash($Clave,PASSWORD_DEFAULT );
