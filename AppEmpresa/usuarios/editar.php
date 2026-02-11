@@ -17,14 +17,14 @@ if(!$dept){
 $emps = $db->query("SELECT Codigo, Nombre FROM usuarios ORDER BY Nombre")
 ->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_post()){
     $Nombre = trim($_POST['Nombre']);
     $Clave = trim($_POST['Clave']);
     $hash = password_hash($Clave, PASSWORD_DEFAULT);
     $Rol = trim($_POST['Rol']);
     $db->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?")->execute([$Nombre, $hash, $Rol, $id]);
     flash_set("Usuario actualizado");
-    header("locate listar.php");
+    redirect("listar.php");
     exit;
 }
 
@@ -38,7 +38,7 @@ require_once "../includes/header.php";
     <label>Rol<br>
         <select name="Rol" required>
         <option value="1">Admin</option>
-        <option value="2">Zesar</option>
+        <option value="0">Zesar</option>
         
     </select>
 </label>

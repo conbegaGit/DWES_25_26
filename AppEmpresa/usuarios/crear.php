@@ -9,7 +9,7 @@ require_admin();
 $Nombre = $Clave = '';
 $Rol = 0;
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if (is_post()){
     $Nombre = trim($_POST['Nombre']);
     $Clave = trim($_POST['Clave']);
     $hash = password_hash($Clave, PASSWORD_DEFAULT);
@@ -31,7 +31,7 @@ require_once "../includes/header.php";
     <label>Rol<br>
     <select name="Rol" required>
         <option value="1">Admin</option>
-        <option value="2">Zesar</option>
+        <option value="0">Zesar</option>
         
     </select>
 </label>

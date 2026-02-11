@@ -17,7 +17,7 @@ if(!$dept){
 $emps = $db->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre")
 ->fetchAll(PDO::FETCH_ASSOC);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_post()){
     $nombre = trim($_POST['Nombre']);
     $apellido1 = trim($_POST['Apellido1']);
     $apellido2 = trim($_POST['Apellido2']);

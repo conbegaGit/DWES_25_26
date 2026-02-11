@@ -15,12 +15,12 @@ if (!$dept) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_post()){
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval($_POST['Presupuesto']);
     $jefe = !empty($_POST['Jefe']) ? intval($_POST['Jefe']) : null;
-    $db->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Jefe=? WHERE CodDept=?")->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
+    $db->prepare("UPDATE departamentos SET Nombre=?, Ciudad=?, Presupuesto=?, Jefe=? WHERE CodDept=?")->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
     flash_set("Departamento actualizado");
     redirect("listar.php");
     exit;

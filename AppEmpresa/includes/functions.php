@@ -29,3 +29,7 @@ function is_admin(){
     return isset($_SESSION['user'])
     && intval($_SESSION['user']['Rol']) === 1;
 }
+
+function is_post(): bool{
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+}
