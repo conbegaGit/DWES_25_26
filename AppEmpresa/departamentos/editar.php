@@ -4,6 +4,8 @@ require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_login();
+require_admin();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -13,7 +15,7 @@ $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$dept) {
     // flash_set("Departamento no encontrado");
-    redirect("listar.php");
+    redirect("/AppEmpresa/departamentos/listar.php");
 }
 
 $nombre = $dept['Nombre'];
@@ -34,7 +36,7 @@ if (is_post()) {
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
 
         flash_set("Departamento actualizado");
-        redirect("listar.php");
+        redirect("/AppEmpresa/departamentos/listar.php");
     }
 }
 ?>

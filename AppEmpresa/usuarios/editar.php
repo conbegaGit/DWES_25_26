@@ -14,7 +14,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     // flash_set("Usuario no encontrado");
-    redirect("listar.php");
+    redirect("/AppEmpresa/usuarios/listar.php");
 }
 
 $codigo = $user['Codigo'];
@@ -28,12 +28,23 @@ if (is_post()) {
     $clave = trim($_POST['Clave'] ?? '');
     $rol = intval($_POST['Rol']);
 
-    if ($nombre && $clave) {
-        $hashClave = password_hash($clave, PASSWORD_DEFAULT);
-        $stmt = $bd->prepare("UPDATE usuarios SET Nombre=?, Clave=?, Rol=? WHERE Codigo=?");
-        $stmt->execute([$nombre, $hashClave, $rol, $codigo]);
+    if ($nombre) {
+        $params = [$nombre, $rol, $codigo];
+        $sql = "UPDATE usuarios SET Nombre=?, Rol=?";
+        
+        if (!empty($clave)) {
+            $sql .= ", Clave=?";
+            $params = [$nombre, $rol, password_hash($clave, PASSWORD_DEFAULT), $codigo];
+        } else {
+            $params = [$nombre, $rol, $codigo];
+        }
+        
+        $sql .= " WHERE Codigo=?";
+        
+        $stmt = $bd->prepare($sql);
+        $stmt->execute($params);
         flash_set("Usuario actualizado");
-        redirect("listar.php");
+        redirect("/AppEmpresa/usuarios/listar.php");
     }
 }
 ?>
@@ -52,7 +63,7 @@ if (is_post()) {
 
     <label>
         Clave<br>
-        <input type="text" name="Clave" value="<?= e($clave) ?>" required>
+        <input type="password" name="Clave" value="" placeholder="Dejar en blanco para no cambiar">
     </label>
 
 <label>

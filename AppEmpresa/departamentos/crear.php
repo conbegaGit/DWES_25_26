@@ -4,6 +4,8 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_login();
+require_admin();
+
 
 
 $nombre = $ciudad = '';
@@ -15,7 +17,7 @@ if (is_post()){
     $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
     $stmt->execute([$nombre, $ciudad, $presupuesto]);
     flash_set("Departamento creado");
-    redirect("listar.php");
+    redirect("/AppEmpresa/departamentos/listar.php");
 }
 require_once("../includes/header.php");
 ?>

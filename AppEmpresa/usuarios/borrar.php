@@ -11,4 +11,4 @@ if ($id) {
     $stmt = $bd->prepare("DELETE FROM usuarios WHERE Codigo = ?")->execute([$id]);
     flash_set("Usuario borrado");
 }
-redirect("listar.php");
+redirect("/AppEmpresa/usuarios/listar.php");

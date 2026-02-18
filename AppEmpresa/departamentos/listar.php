@@ -10,7 +10,9 @@ $stm = $bd->query("SELECT d.*, e.Nombre AS JefeNombre FROM departamentos d LEFT 
 $rows = $stm -> fetchALL(PDO::FETCH_ASSOC);
 ?>
 <h2>Departamentos</h2>
+<?php if ($_SESSION['user']['Rol'] == 1): ?>
 <a class="btn" href="crear.php">Nuevo departamento</a>
+<?php endif; ?>
 <table class="list">
     <thead><tr><th>ID</th><th>Nombre</th><th>Jefe</th><th>Ciudad</th><th>Presupuesto</th><th>Acciones</th></tr></thead>
     <tbody>
@@ -22,8 +24,10 @@ $rows = $stm -> fetchALL(PDO::FETCH_ASSOC);
             <td><?= e($r['Ciudad']) ?></td>
             <td><?= e($r['Presupuesto']) ?></td>
             <td>
+                <?php if ($_SESSION['user']['Rol'] == 1): ?>
                 <a href="editar.php?id=<?= $r['CodDept'] ?>">Editar</a>
                 <a href="borrar.php?id=<?= $r['CodDept'] ?>"onclick="return confirm('Borrar departamento')">Borrar</a>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>

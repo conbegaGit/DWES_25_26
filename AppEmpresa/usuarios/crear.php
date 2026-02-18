@@ -17,7 +17,7 @@ if (is_post()){
     $stmt = $bd->prepare("INSERT INTO usuarios (Codigo, Nombre, Clave, Rol) VALUES (?, ?, ?, ?)");
     $stmt->execute([$codigo, $nombre, $hashClave, $rol]);
     flash_set("Usuario creado");
-    redirect("listar.php");
+    redirect("/AppEmpresa/usuarios/listar.php");
 }
 require_once("../includes/header.php");
 ?>

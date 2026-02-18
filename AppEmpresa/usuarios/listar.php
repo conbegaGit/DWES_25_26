@@ -19,7 +19,7 @@ $rows = $stm -> fetchALL(PDO::FETCH_ASSOC);
         <tr>
             <td><?= e($r['Codigo']) ?></td>
             <td><?= e($r['Nombre']) ?></td>
-            <td><?= e($r['Clave']) ?></td>
+            <td><input type="password" value="********" readonly style="border:none; background:transparent;"></td>
             <td><?= e($r['Rol']) ?></td>
             <td>
                 <a href="editar.php?id=<?= $r['Codigo'] ?>">Editar</a>

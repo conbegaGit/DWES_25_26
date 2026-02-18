@@ -36,6 +36,7 @@ if (isset($_SESSION['user'])) {
 
             <div class="actions">
                 <button type="submit">Entrar</button>
+                
             </div>
 
         </form>

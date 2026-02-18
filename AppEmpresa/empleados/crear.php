@@ -4,6 +4,8 @@ require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
 require_login();
+require_admin();
+
 
 
 $nombre = $Apellido1 = $Apellido2 = '';
@@ -25,7 +27,7 @@ if (is_post()){
     $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento_id]);
     
     flash_set("Empleado creado");
-    redirect("listar.php");
+    redirect("/AppEmpresa/empleados/listar.php");
 }
 require_once("../includes/header.php");
 ?>

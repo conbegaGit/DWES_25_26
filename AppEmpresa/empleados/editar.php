@@ -4,6 +4,8 @@ require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_login();
+require_admin();
+
 
 require_once __DIR__ . "/../includes/header.php";
 
@@ -13,7 +15,7 @@ $stmt->execute([$id]);
 $emp = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$emp) {
-    redirect("listar.php");
+    redirect("/AppEmpresa/empleados/listar.php");
 }
 
 $nombre = $emp['Nombre'];
@@ -33,7 +35,7 @@ if (is_post()) {
     if ($nombre && $Apellido1 && $Apellido2 && $departamento) {
         $stmt = $bd->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?");
         $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento, $id]);
-        redirect("listar.php");
+        redirect("/AppEmpresa/empleados/listar.php");
     }
 }
 ?>
