@@ -20,17 +20,20 @@ if (is_post()) {
     if ($clave === '') $errores[] = "La clave es obligatoria.";
     if ($rol === '') $errores[] = "Debes seleccionar un rol.";
 
+    // ... (parte superior del archivo igual hasta el try)
     if (empty($errores)) {
         try {
-            // Generar el hash seguro para la base de datos
+            // Generar el hash seguro
             $hash = password_hash($clave, PASSWORD_DEFAULT);
 
+            // Insertamos el $hash en lugar de la $clave plana
             $stmt = $bd->prepare("INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)");
             $stmt->execute([$nombre, $hash, $rol]);
 
             flash_set("Usuario creado correctamente");
             header("Location: listar.php");
             exit;
+// ... (resto del archivo igual)
 
         } catch (PDOException $e) {
             // Capturar error de nombre duplicado (Código SQLSTATE 23000, Error 1062)

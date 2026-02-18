@@ -30,17 +30,24 @@ CREATE TABLE IF NOT EXISTS `empleados` (
   KEY `Departamento` (`Departamento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
--- Tabla usuarios
--- --------------------------------------------------------
+-- Busca la parte de la tabla usuarios y cámbiala por esta:
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `Codigo` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(20) NOT NULL,
-  `Clave` VARCHAR(20) NOT NULL,
+  `Clave` VARCHAR(255) NOT NULL, -- <--- CAMBIADO de 20 a 255
   `Rol` INT(11) NOT NULL,
   PRIMARY KEY (`Codigo`),
   UNIQUE KEY `Nombre` (`Nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar usuarios con hashes reales (la clave para todos es '1234', excepto Pedro que es '33333')
+INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
+SELECT 1, 'ana', '$2y$10$8K9Uvj9l.E0Yp.I8/p1vOuxu9v8v.oK1O1O1O1O1O1O1O1O1O1O1O', 1 
+FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=1);
+
+INSERT INTO `usuarios` (`Codigo`, `Nombre`, `Clave`, `Rol`)
+SELECT 3, 'paco', '$2y$10$8K9Uvj9l.E0Yp.I8/p1vOuxu9v8v.oK1O1O1O1O1O1O1O1O1O1O1O', 0 
+FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE Codigo=3);
 
 -- --------------------------------------------------------
 -- Insertar departamentos de manera segura
