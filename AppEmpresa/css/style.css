@@ -116,4 +116,35 @@ a.btn{display:inline-block}
     padding: 0 15px;
 }
 
+.paginacion {
+    margin-top: 20px;
+    text-align: center;
+}
 
+.paginacion a {
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+}
+
+.paginacion a.activo {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination,
+.pagination li {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    list-style: none !important;
+    padding-left: 0;
+}
