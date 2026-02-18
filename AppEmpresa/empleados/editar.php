@@ -25,24 +25,37 @@ $deps = $bd->query(
     "SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre"
 )->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$errores = [];
+
+if (is_post()) {
 
     $nombre = trim($_POST['Nombre'] ?? '');
     $apellido1 = trim($_POST['Apellido1'] ?? '');
     $apellido2 = trim($_POST['Apellido2'] ?? '');
+    // Si viene vacío, lo dejamos como null para validarlo
     $departamento = $_POST['Departamento'] !== '' ? (int)$_POST['Departamento'] : null;
 
-    if ($nombre && $apellido1) {
-        $stmt = $bd->prepare(
-            "UPDATE empleados
-             SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, Departamento = ?
-             WHERE CodEmple = ?"
-        );
-        $stmt->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
+    // Validaciones
+    if (!$nombre) $errores[] = "El nombre es obligatorio";
+    if (!$apellido1) $errores[] = "El primer apellido es obligatorio";
+    // Si la DB no admite NULL, el departamento es obligatorio
+    if ($departamento === null) $errores[] = "Debes seleccionar un departamento válido";
 
-        flash_set("Empleado actualizado");
-        header("Location: listar.php");
-        exit;
+    if (empty($errores)) {
+        try {
+            $stmt = $bd->prepare(
+                "UPDATE empleados
+                 SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, Departamento = ?
+                 WHERE CodEmple = ?"
+            );
+            $stmt->execute([$nombre, $apellido1, $apellido2, $departamento, $id]);
+
+            flash_set("Empleado actualizado");
+            header("Location: listar.php");
+            exit;
+        } catch (PDOException $e) {
+            $errores[] = "Error en la base de datos: " . $e->getMessage();
+        }
     }
 }
 
@@ -50,6 +63,16 @@ require_once __DIR__ . "/../includes/header.php";
 ?>
 
 <h2>Editar empleado</h2>
+
+<?php if (!empty($errores)): ?>
+    <div style="color: red; background: #ffeeee; padding: 10px; border: 1px solid red; margin-bottom: 20px;">
+        <ul>
+            <?php foreach ($errores as $e): ?>
+                <li><?= e($e) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
 
 <form method="post">
     <label>
@@ -69,8 +92,8 @@ require_once __DIR__ . "/../includes/header.php";
 
     <label>
         Departamento<br>
-        <select name="Departamento">
-            <option value="">-- Sin departamento --</option>
+        <select name="Departamento" required>
+            <option value="">-- Selecciona un departamento --</option>
             <?php foreach ($deps as $d): ?>
                 <option value="<?= $d['CodDept'] ?>"
                     <?= ($departamento == $d['CodDept']) ? 'selected' : '' ?>>
