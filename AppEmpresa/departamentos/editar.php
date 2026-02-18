@@ -4,6 +4,7 @@ require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_once __DIR__ . "/../includes/header.php";
 
+
 $id = intval($_GET['id'] ?? 0);
 $stmt = $bd->prepare("SELECT * FROM departamentos WHERE CodDept = ?");
 $stmt->execute([$id]);
@@ -22,7 +23,7 @@ $jefe = $dept['Jefe'];
 
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $ciudad = trim($_POST['Ciudad'] ?? '');
     $presupuesto = intval($_POST['Presupuesto'] ?? 0);

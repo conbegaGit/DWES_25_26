@@ -8,7 +8,7 @@ require_once __DIR__ . "/../includes/header.php";
 $nombre = $ciudad = '';
 $presupuesto = 0;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $ciudad = trim($_POST['Ciudad'] ?? '');
     $presupuesto = intval($_POST['Presupuesto'] ?? '');
