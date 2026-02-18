@@ -6,19 +6,14 @@ require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
 require_admin();
 
-if ($_SESSION['user']['Rol'] != 1) {
-    header("Location: /AppEmpresa/dashboard.php");
-    exit;
-}
-
+// Mapa de roles corregido para que el 0 funcione siempre
 $roles_map = [
-    0 => 'admin',
-    1 => 'usuario'
+    '0' => 'usuario',
+    '1' => 'admin'
 ];
 
 $stm = $bd->query("SELECT * FROM usuarios ORDER BY Codigo");
 $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
-
 
 require_once __DIR__ . "/../includes/header.php";
 ?>
@@ -42,7 +37,13 @@ require_once __DIR__ . "/../includes/header.php";
             <td><?= e($r['Codigo']) ?></td>
             <td><?= e($r['Nombre']) ?></td>
             <td>********</td>
-            <td><?= e($roles_map[$r['Rol']]) ?></td>
+            <td>
+                <?php 
+                    // Forzamos que el índice sea tratado como texto para que el '0' no se confunda con 'vacío'
+                    $id_rol = (string)$r['Rol'];
+                    echo e($roles_map[$id_rol] ?? 'Sin rol'); 
+                ?>
+            </td>
             <td>
                 <a href="editar.php?id=<?= $r['Codigo'] ?>">Editar</a>
                 <a href="borrar.php?id=<?= $r['Codigo'] ?>" onclick="return confirm('¿Borrar usuario?')">Borrar</a>

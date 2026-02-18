@@ -7,52 +7,79 @@ require_once __DIR__ . "/../includes/functions.php";
 require_once __DIR__ . "/../includes/header.php";
 require_admin();
 
-// Valores por defecto
-$nombre = '';
-$rol = 2;
+// 1. Obtener el ID del usuario a editar
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    header("Location: listar.php");
+    exit;
+}
 
 // Roles disponibles
-$roles = [
-    1 => 'admin',
-    2 => 'usuario'
-];
-
+$roles = [1 => 'admin', 2 => 'usuario'];
 $errores = [];
 
-if (is_post()) {
+// 2. Cargar datos actuales del usuario
+$stmt = $bd->prepare("SELECT * FROM usuarios WHERE Codigo = ?");
+$stmt->execute([$id]);
+$usuarioActual = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if (!$usuarioActual) {
+    die("Usuario no encontrado.");
+}
+
+$nombre = $usuarioActual['Nombre'];
+$rol = $usuarioActual['Rol'];
+
+// 3. Procesar el formulario cuando se envía (POST)
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
-    $clave  = trim($_POST['Clave'] ?? '');
+    $clave  = trim($_POST['Clave'] ?? ''); // Opcional en edición
     $rol    = (int) ($_POST['Rol'] ?? 2);
 
     if ($nombre === '') $errores[] = "El nombre es obligatorio";
-    if ($clave === '') $errores[] = "La clave es obligatoria";
     if (!array_key_exists($rol, $roles)) $errores[] = "Rol no válido";
 
     if (empty($errores)) {
+        try {
+            // Si el usuario escribió una nueva clave, la hasheamos. 
+            // Si no, mantenemos la que ya tiene.
+            if ($clave !== '') {
+                $hash = password_hash($clave, PASSWORD_DEFAULT);
+                $sql = "UPDATE usuarios SET Nombre = ?, Clave = ?, Rol = ? WHERE Codigo = ?";
+                $params = [$nombre, $hash, $rol, $id];
+            } else {
+                $sql = "UPDATE usuarios SET Nombre = ?, Rol = ? WHERE Codigo = ?";
+                $params = [$nombre, $rol, $id];
+            }
 
-        $hash = password_hash($clave, PASSWORD_DEFAULT);
+            $stmt = $bd->prepare($sql);
+            $stmt->execute($params);
 
-        $stmt = $bd->prepare(
-            "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (?, ?, ?)"
-        );
-        $stmt->execute([$nombre, $hash, $rol]);
+            flash_set("Usuario actualizado correctamente");
+            header("Location: listar.php");
+            exit;
 
-        flash_set("Usuario creado correctamente");
-        header("Location: listar.php");
-        exit;
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                $errores[] = "Error: El nombre '$nombre' ya está siendo usado por otro usuario.";
+            } else {
+                $errores[] = "Error: " . $e->getMessage();
+            }
+        }
     }
 }
 ?>
 
-<h2>Nuevo usuario</h2>
+<h2>Editar usuario: <?= e($usuarioActual['Nombre']) ?></h2>
 
 <?php if (!empty($errores)): ?>
-    <ul class="errores">
-        <?php foreach ($errores as $e): ?>
-            <li><?= e($e) ?></li>
-        <?php endforeach; ?>
-    </ul>
+    <div style="color: red; background: #ffeeee; padding: 10px; border: 1px solid red; margin-bottom: 20px;">
+        <ul>
+            <?php foreach ($errores as $e): ?>
+                <li><?= e($e) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <form method="post">
@@ -63,8 +90,8 @@ if (is_post()) {
     <br><br>
 
     <label>
-        Clave<br>
-        <input type="password" name="Clave" required>
+        Clave (deja en blanco para no cambiarla)<br>
+        <input type="password" name="Clave">
     </label>
     <br><br>
 
@@ -80,8 +107,8 @@ if (is_post()) {
     </label>
     <br><br>
 
-    <button type="submit">Crear usuario</button>
-    <a class="btn" href="listar.php">Cancelar</a>
+    <button type="submit">Actualizar usuario</button>
+    <a href="listar.php">Cancelar</a>
 </form>
 
 <?php require_once __DIR__ . "/../includes/footer.php"; ?>
