@@ -3,17 +3,19 @@ session_start();
 require_once "../includes/auth.php";
 require_once "../includes/db.php";
 require_once "../includes/functions.php";
+require_login();
+
+
 $nombre = $ciudad = '';
 $presupuesto = 0;
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if (is_post()){
     $nombre = trim($_POST['Nombre']);
     $ciudad = trim($_POST['Ciudad']);
     $presupuesto = intval($_POST['Presupuesto']);
     $stmt = $bd->prepare("INSERT INTO departamentos (Nombre, Ciudad, Presupuesto) VALUES (?, ?, ?)");
     $stmt->execute([$nombre, $ciudad, $presupuesto]);
     flash_set("Departamento creado");
-    header("Location: listar.php");
-    exit;
+    redirect("listar.php");
 }
 require_once("../includes/header.php");
 ?>

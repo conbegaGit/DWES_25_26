@@ -1,6 +1,12 @@
 <?php
+session_start();
+require_once 'includes/functions.php';
 
-
+// Si el usuario ya está logueado, redirigir al dashboard
+if (isset($_SESSION['user'])) {
+    header("Location: dashboard.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,6 +20,11 @@
 <body class="login-body">
     <div class="login-box">
         <h1>Iniciar sesión</h1>
+        <?php if ($msg = flash_get()): ?>
+            <div class="flash" style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
+                <?= e($msg) ?>
+            </div>
+        <?php endif; ?>
         <form method="POST" action="login.php">
             <label for="usuario">Usuario:
                 <input type="text" id="usuario" name="usuario" required autofocus>

@@ -1,3 +1,4 @@
+
 <?php
 function e($str){
     return htmlspecialchars($str,ENT_QUOTES, 'UTF-8');
@@ -15,4 +16,17 @@ function flash_get(){
         return $m;
     }
     return null;
+}
+
+function redirect(string $url): void {
+    // Si no empieza con /, agregar la ruta base
+    if (strpos($url, '/') !== 0 && strpos($url, 'http') !== 0) {
+        $url = '/AppEmpresa/' . $url;
+    }
+    header("Location: " . $url);
+    exit;
+}
+
+function is_post(): bool {
+    return $_SERVER ['REQUEST_METHOD'] === 'POST';
 }

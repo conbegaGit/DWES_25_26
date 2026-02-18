@@ -1,7 +1,10 @@
 <?php
 if(!isset($_SESSION)) session_start(); 
 require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/functions.php";
+require_login();
+
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -10,8 +13,7 @@ $stmt->execute([$id]);
 $emp = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$emp) {
-    header("Location: listar.php");
-    exit();
+    redirect("listar.php");
 }
 
 $nombre = $emp['Nombre'];
@@ -22,7 +24,7 @@ $departamento = $emp['Departamento'];
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 $depts = $bd->query("SELECT CodDept, Nombre FROM departamentos ORDER BY Nombre") ->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $Apellido1 = trim($_POST['Apellido1'] ?? '');
     $Apellido2 = trim($_POST['Apellido2'] ?? '');
@@ -31,8 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nombre && $Apellido1 && $Apellido2 && $departamento) {
         $stmt = $bd->prepare("UPDATE empleados SET Nombre=?, Apellido1=?, Apellido2=?, Departamento=? WHERE CodEmple=?");
         $stmt->execute([$nombre, $Apellido1, $Apellido2, $departamento, $id]);
-        header("Location: listar.php");
-        exit;
+        redirect("listar.php");
     }
 }
 ?>

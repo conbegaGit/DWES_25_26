@@ -1,7 +1,9 @@
 <?php
 session_start();
+require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/db.php";
 require_once __DIR__ . "/../includes/functions.php";
+require_login();
 require_once __DIR__ . "/../includes/header.php";
 
 $id = intval($_GET['id'] ?? 0);
@@ -11,8 +13,7 @@ $dept = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$dept) {
     // flash_set("Departamento no encontrado");
-    header("Location: listar.php");
-    exit();
+    redirect("listar.php");
 }
 
 $nombre = $dept['Nombre'];
@@ -22,7 +23,7 @@ $jefe = $dept['Jefe'];
 
 $emps = $bd->query("SELECT CodEmple, Nombre FROM empleados ORDER BY Nombre")->fetchAll(PDO::FETCH_ASSOC);
 echo "antes del if";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (is_post()) {
     $nombre = trim($_POST['Nombre'] ?? '');
     $ciudad = trim($_POST['Ciudad'] ?? '');
     $presupuesto = intval($_POST['Presupuesto'] ?? 0);
@@ -33,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$nombre, $ciudad, $presupuesto, $jefe, $id]);
 
         flash_set("Departamento actualizado");
-        header("Location: listar.php");
-        exit;
+        redirect("listar.php");
     }
 }
 ?>

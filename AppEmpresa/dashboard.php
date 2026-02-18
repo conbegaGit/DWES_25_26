@@ -4,7 +4,9 @@ session_start();
 require_once "includes/auth.php";
 require_once "includes/db.php";
 require_once "includes/functions.php";
+require_login();
 require_once "includes/header.php";
+
 
 $tot_dept = $bd->query("SELECT COUNT(*) FROM departamentos")->fetchColumn();
 $tot_emp = $bd->query("SELECT COUNT(*) FROM empleados")->fetchColumn();
