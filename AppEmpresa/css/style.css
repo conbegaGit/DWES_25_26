@@ -67,3 +67,53 @@ a.btn{display:inline-block}
   .main-nav{display:none}
   .wrap{padding:12px}
 }
+
+/* Filtro */
+.filtro form {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.filtro label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtro input,
+.filtro select,
+.filtro button,
+.filtro .btn {
+    height: 38px;
+}
+
+/* ICONO INPUT */
+
+.input-icono {
+    position: relative;
+}
+
+.input-icono input {
+    padding-left: 32px;
+}
+
+.icono {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+}
+
+/* BOTONES */
+
+.filtro button,
+.filtro .btn {
+    margin-top: 32px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+
